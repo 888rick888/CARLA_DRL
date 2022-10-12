@@ -54,9 +54,9 @@ class CarEnv:
     front_camera = None
     
     def __init__(self, segmentation, state_size):
-        # self.client = carla.Client("125.217.226.130",2000)
+        self.client = carla.Client("125.217.226.130",2000)
         # self.client = carla.Client("10.168.3.204",2000)
-        self.client = carla.Client("localhost",2000)
+        # self.client = carla.Client("localhost",2000)
         # self.client = carla.Client("localhost",2100)
         # self.client = carla.Client("125.217.226.196",2000)
 

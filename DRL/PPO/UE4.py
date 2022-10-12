@@ -33,7 +33,7 @@ except IndexError:
 
 import carla
 sys.path.append('..')
-from agents.navigation.basic_agent import BasicAgent
+# from agents.navigation.basic_agent import BasicAgent
 
 random.seed(1)
 np.random.seed(1)

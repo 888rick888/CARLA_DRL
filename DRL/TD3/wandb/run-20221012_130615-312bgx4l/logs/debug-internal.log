@@ -1,0 +1,149 @@
+2022-10-12 13:06:16,231 INFO    MainThread:27512 [internal.py:wandb_internal():95] W&B internal server running at pid: 27512, started at: 2022-10-12 13:06:16.230070
+2022-10-12 13:06:16,232 INFO    WriterThread:27512 [datastore.py:open_for_write():77] open: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\run-312bgx4l.wandb
+2022-10-12 13:06:16,233 DEBUG   SenderThread:27512 [sender.py:send():235] send: header
+2022-10-12 13:06:16,233 DEBUG   SenderThread:27512 [sender.py:send():235] send: run
+2022-10-12 13:06:16,774 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: check_version
+2022-10-12 13:06:16,776 INFO    SenderThread:27512 [dir_watcher.py:__init__():169] watching files in: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files
+2022-10-12 13:06:16,777 INFO    SenderThread:27512 [sender.py:_start_run_threads():815] run started: 312bgx4l with start time 1665551175
+2022-10-12 13:06:16,777 DEBUG   SenderThread:27512 [sender.py:send():235] send: summary
+2022-10-12 13:06:16,777 INFO    SenderThread:27512 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-10-12 13:06:16,777 DEBUG   SenderThread:27512 [sender.py:send_request():249] send_request: check_version
+2022-10-12 13:06:17,314 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: run_start
+2022-10-12 13:06:17,786 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_created():217] file/dir created: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-summary.json
+2022-10-12 13:06:18,286 DEBUG   HandlerThread:27512 [meta.py:__init__():37] meta init
+2022-10-12 13:06:18,286 DEBUG   HandlerThread:27512 [meta.py:__init__():51] meta init done
+2022-10-12 13:06:18,286 DEBUG   HandlerThread:27512 [meta.py:probe():211] probe
+2022-10-12 13:06:18,302 DEBUG   HandlerThread:27512 [meta.py:_setup_git():201] setup git
+2022-10-12 13:06:18,399 DEBUG   HandlerThread:27512 [meta.py:_setup_git():208] setup git done
+2022-10-12 13:06:18,399 DEBUG   HandlerThread:27512 [meta.py:_save_pip():55] save pip
+2022-10-12 13:06:18,400 DEBUG   HandlerThread:27512 [meta.py:_save_pip():69] save pip done
+2022-10-12 13:06:18,401 DEBUG   HandlerThread:27512 [meta.py:_save_conda():76] save conda
+2022-10-12 13:06:18,796 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_created():217] file/dir created: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\conda-environment.yaml
+2022-10-12 13:06:18,797 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_created():217] file/dir created: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\requirements.txt
+2022-10-12 13:06:20,419 DEBUG   HandlerThread:27512 [meta.py:_save_conda():86] save conda done
+2022-10-12 13:06:20,419 DEBUG   HandlerThread:27512 [meta.py:probe():249] probe done
+2022-10-12 13:06:20,422 DEBUG   SenderThread:27512 [sender.py:send():235] send: files
+2022-10-12 13:06:20,422 INFO    SenderThread:27512 [sender.py:_save_file():947] saving file wandb-metadata.json with policy now
+2022-10-12 13:06:20,428 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: stop_status
+2022-10-12 13:06:20,429 DEBUG   SenderThread:27512 [sender.py:send_request():249] send_request: stop_status
+2022-10-12 13:06:20,815 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\conda-environment.yaml
+2022-10-12 13:06:20,815 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_created():217] file/dir created: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:20,816 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_created():217] file/dir created: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-metadata.json
+2022-10-12 13:06:20,929 DEBUG   SenderThread:27512 [sender.py:send():235] send: telemetry
+2022-10-12 13:06:20,929 DEBUG   SenderThread:27512 [sender.py:send():235] send: telemetry
+2022-10-12 13:06:20,929 DEBUG   SenderThread:27512 [sender.py:send():235] send: config
+2022-10-12 13:06:25,856 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:31,920 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:33,189 INFO    Thread-17 :27512 [upload_job.py:push():137] Uploaded file C:\Users\18820\AppData\Local\Temp\tmpzphbvuknwandb\e1wc1gdm-wandb-metadata.json
+2022-10-12 13:06:33,946 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:35,496 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: partial_history
+2022-10-12 13:06:35,497 DEBUG   SenderThread:27512 [sender.py:send():235] send: history
+2022-10-12 13:06:35,497 DEBUG   SenderThread:27512 [sender.py:send():235] send: summary
+2022-10-12 13:06:35,498 INFO    SenderThread:27512 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-10-12 13:06:35,937 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: stop_status
+2022-10-12 13:06:35,937 DEBUG   SenderThread:27512 [sender.py:send_request():249] send_request: stop_status
+2022-10-12 13:06:35,969 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-summary.json
+2022-10-12 13:06:35,969 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:37,996 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:42,050 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:44,064 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:46,090 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:47,103 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\config.yaml
+2022-10-12 13:06:48,109 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:49,411 DEBUG   SenderThread:27512 [sender.py:send():235] send: stats
+2022-10-12 13:06:50,137 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:51,492 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: stop_status
+2022-10-12 13:06:51,492 DEBUG   SenderThread:27512 [sender.py:send_request():249] send_request: stop_status
+2022-10-12 13:06:52,155 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:57,193 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:06:58,617 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: partial_history
+2022-10-12 13:06:58,617 DEBUG   SenderThread:27512 [sender.py:send():235] send: history
+2022-10-12 13:06:58,617 DEBUG   SenderThread:27512 [sender.py:send():235] send: summary
+2022-10-12 13:06:58,618 INFO    SenderThread:27512 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-10-12 13:06:59,217 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-summary.json
+2022-10-12 13:06:59,218 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:00,230 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:05,296 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:06,963 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: stop_status
+2022-10-12 13:07:06,963 DEBUG   SenderThread:27512 [sender.py:send_request():249] send_request: stop_status
+2022-10-12 13:07:07,309 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:07,561 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: partial_history
+2022-10-12 13:07:07,684 DEBUG   SenderThread:27512 [sender.py:send():235] send: history
+2022-10-12 13:07:07,685 DEBUG   SenderThread:27512 [sender.py:send():235] send: summary
+2022-10-12 13:07:07,686 INFO    SenderThread:27512 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-10-12 13:07:08,319 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-summary.json
+2022-10-12 13:07:09,327 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:14,392 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:17,420 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:19,448 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:20,958 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: partial_history
+2022-10-12 13:07:20,959 DEBUG   SenderThread:27512 [sender.py:send():235] send: history
+2022-10-12 13:07:20,959 DEBUG   SenderThread:27512 [sender.py:send():235] send: summary
+2022-10-12 13:07:20,959 INFO    SenderThread:27512 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-10-12 13:07:21,472 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-summary.json
+2022-10-12 13:07:21,473 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:22,689 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: stop_status
+2022-10-12 13:07:22,689 DEBUG   SenderThread:27512 [sender.py:send_request():249] send_request: stop_status
+2022-10-12 13:07:23,502 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:27,343 DEBUG   SenderThread:27512 [sender.py:send():235] send: stats
+2022-10-12 13:07:27,536 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:29,560 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:30,272 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: partial_history
+2022-10-12 13:07:30,273 DEBUG   SenderThread:27512 [sender.py:send():235] send: history
+2022-10-12 13:07:30,273 DEBUG   SenderThread:27512 [sender.py:send():235] send: summary
+2022-10-12 13:07:30,274 INFO    SenderThread:27512 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-10-12 13:07:30,572 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-summary.json
+2022-10-12 13:07:31,579 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:33,606 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:36,634 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:39,657 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:41,679 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:42,347 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: stop_status
+2022-10-12 13:07:42,359 DEBUG   SenderThread:27512 [sender.py:send_request():249] send_request: stop_status
+2022-10-12 13:07:43,703 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:45,726 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:47,752 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:49,778 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:51,799 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:53,826 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:55,841 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:56,221 DEBUG   SenderThread:27512 [sender.py:send():235] send: stats
+2022-10-12 13:07:57,866 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:07:57,897 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: stop_status
+2022-10-12 13:07:57,897 DEBUG   SenderThread:27512 [sender.py:send_request():249] send_request: stop_status
+2022-10-12 13:07:59,892 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:08:01,922 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:08:03,941 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:08:05,968 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:08:07,995 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:08:10,002 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:08:11,486 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: partial_history
+2022-10-12 13:08:11,486 DEBUG   SenderThread:27512 [sender.py:send():235] send: history
+2022-10-12 13:08:11,486 DEBUG   SenderThread:27512 [sender.py:send():235] send: summary
+2022-10-12 13:08:11,487 INFO    SenderThread:27512 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-10-12 13:08:12,029 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-summary.json
+2022-10-12 13:08:12,029 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:08:13,435 DEBUG   HandlerThread:27512 [handler.py:handle_request():141] handle_request: stop_status
+2022-10-12 13:08:13,435 DEBUG   SenderThread:27512 [sender.py:send_request():249] send_request: stop_status
+2022-10-12 13:08:14,057 INFO    Thread-11 :27512 [dir_watcher.py:_on_file_modified():230] file/dir modified: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:08:23,067 WARNING MainThread:27512 [internal.py:wandb_internal():155] Internal process interrupt: 1
+2022-10-12 13:08:23,276 WARNING MainThread:27512 [internal.py:wandb_internal():155] Internal process interrupt: 2
+2022-10-12 13:08:23,276 ERROR   MainThread:27512 [internal.py:wandb_internal():158] Internal process interrupted.
+2022-10-12 13:08:23,478 INFO    WriterThread:27512 [datastore.py:close():281] close: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\run-312bgx4l.wandb
+2022-10-12 13:08:23,912 INFO    HandlerThread:27512 [handler.py:finish():790] shutting down handler
+2022-10-12 13:08:23,912 INFO    SenderThread:27512 [sender.py:finish():1107] shutting down sender
+2022-10-12 13:08:23,912 INFO    SenderThread:27512 [dir_watcher.py:finish():283] shutting down directory watcher
+2022-10-12 13:08:24,176 INFO    SenderThread:27512 [dir_watcher.py:finish():313] scan: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files
+2022-10-12 13:08:24,177 INFO    SenderThread:27512 [dir_watcher.py:finish():327] scan save: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\conda-environment.yaml conda-environment.yaml
+2022-10-12 13:08:24,177 INFO    SenderThread:27512 [dir_watcher.py:finish():327] scan save: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\config.yaml config.yaml
+2022-10-12 13:08:24,178 INFO    SenderThread:27512 [dir_watcher.py:finish():327] scan save: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log output.log
+2022-10-12 13:08:24,180 INFO    SenderThread:27512 [dir_watcher.py:finish():327] scan save: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\requirements.txt requirements.txt
+2022-10-12 13:08:24,183 INFO    SenderThread:27512 [dir_watcher.py:finish():327] scan save: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-metadata.json wandb-metadata.json
+2022-10-12 13:08:24,183 INFO    SenderThread:27512 [dir_watcher.py:finish():327] scan save: D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-summary.json wandb-summary.json
+2022-10-12 13:08:24,187 INFO    SenderThread:27512 [file_pusher.py:finish():145] shutting down file pusher
+2022-10-12 13:08:24,187 INFO    SenderThread:27512 [file_pusher.py:join():150] waiting for file pusher
+2022-10-12 13:08:25,325 INFO    Thread-18 :27512 [upload_job.py:push():137] Uploaded file D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\conda-environment.yaml
+2022-10-12 13:08:25,343 INFO    Thread-22 :27512 [upload_job.py:push():137] Uploaded file D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\wandb-summary.json
+2022-10-12 13:08:25,372 INFO    Thread-21 :27512 [upload_job.py:push():137] Uploaded file D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\requirements.txt
+2022-10-12 13:08:25,731 INFO    Thread-20 :27512 [upload_job.py:push():137] Uploaded file D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\output.log
+2022-10-12 13:08:36,550 INFO    Thread-19 :27512 [upload_job.py:push():137] Uploaded file D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\files\config.yaml

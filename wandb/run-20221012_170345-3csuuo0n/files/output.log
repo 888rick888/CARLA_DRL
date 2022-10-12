@@ -1,0 +1,9 @@
+---------------------------Can not load model----------------------------------
+<tensorflow.python.keras.engine.functional.Functional object at 0x0000021237F77EC8>
+===  reloading world ......  ===
+Traceback (most recent call last):
+  File "d:\study\driverless\code\carla_drl\DRL\TD3\td3.py", line 526, in <module>
+    env = CarEnv(SEGMENTATION, STATE_SIZE)
+  File "d:\study\driverless\code\carla_drl\DRL\TD3\UE4.py", line 68, in __init__
+    self.world = self.client.get_world()
+RuntimeError: time-out of 30000ms while waiting for the simulator, make sure the simulator is ready and connected to 125.217.226.130:2000

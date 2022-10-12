@@ -107,7 +107,7 @@ LAM = 0.5
 if GAE:
     GAMMA = 0.98
 
-wandb.init(project="PPO", entity="rickkkkk", reinit=True, name="changeCamera_puish_NoCAR_1017_5.16")
+wandb.init(project="DRL_PPO", entity="rickkkkk", reinit=True, name="changeCamera_puish_NoCAR_1017_5.16")
 wandb.config.hyper_patamter = {
     "State_size": STATE_SIZE,
     "learning_rate_Actor": LR_A,
@@ -339,7 +339,6 @@ class Agent(object):
         self.reward_buffer.append(reward)
     
     def finish_path(self, next_state, done):
-        
         if done:
             v_s_ = 0
         else:

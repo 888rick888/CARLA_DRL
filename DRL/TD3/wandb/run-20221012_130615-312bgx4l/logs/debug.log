@@ -1,0 +1,47 @@
+2022-10-12 13:06:15,516 INFO    MainThread:31716 [wandb_setup.py:_flush():75] Loading settings from C:\Users\18820\.config\wandb\settings
+2022-10-12 13:06:15,516 INFO    MainThread:31716 [wandb_setup.py:_flush():75] Loading settings from D:\study\driverless\code\carla_drl\DRL\TD3\wandb\settings
+2022-10-12 13:06:15,516 INFO    MainThread:31716 [wandb_setup.py:_flush():75] Loading settings from environment variables: {}
+2022-10-12 13:06:15,516 INFO    MainThread:31716 [wandb_setup.py:_flush():75] Inferring run settings from compute environment: {'program_relpath': 'DRL\\TD3\\ddpg_p.py', 'program': 'ddpg_p.py'}
+2022-10-12 13:06:15,516 INFO    MainThread:31716 [wandb_init.py:_log_setup():438] Logging user logs to D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\logs\debug.log
+2022-10-12 13:06:15,517 INFO    MainThread:31716 [wandb_init.py:_log_setup():439] Logging internal logs to D:\study\driverless\code\carla_drl\DRL\TD3\wandb\run-20221012_130615-312bgx4l\logs\debug-internal.log
+2022-10-12 13:06:15,517 INFO    MainThread:31716 [wandb_init.py:init():472] calling init triggers
+2022-10-12 13:06:15,517 INFO    MainThread:31716 [wandb_init.py:init():476] wandb.init called with sweep_config: {}
+config: {}
+2022-10-12 13:06:15,517 INFO    MainThread:31716 [wandb_init.py:init():525] starting backend
+2022-10-12 13:06:15,517 INFO    MainThread:31716 [backend.py:_multiprocessing_setup():101] multiprocessing start_methods=spawn, using: spawn
+2022-10-12 13:06:15,522 INFO    MainThread:31716 [backend.py:ensure_launched():219] starting backend process...
+2022-10-12 13:06:15,560 INFO    MainThread:31716 [backend.py:ensure_launched():225] started backend process with pid: 27512
+2022-10-12 13:06:15,560 INFO    MainThread:31716 [wandb_init.py:init():534] backend started and connected
+2022-10-12 13:06:15,562 INFO    MainThread:31716 [wandb_init.py:init():598] updated telemetry
+2022-10-12 13:06:15,704 INFO    MainThread:31716 [wandb_init.py:init():629] communicating run to backend with 30 second timeout
+2022-10-12 13:06:16,774 INFO    MainThread:31716 [wandb_run.py:_on_init():1922] communicating current version
+2022-10-12 13:06:17,314 INFO    MainThread:31716 [wandb_run.py:_on_init():1926] got version response upgrade_message: "wandb version 0.13.4 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2022-10-12 13:06:17,314 INFO    MainThread:31716 [wandb_init.py:init():660] starting run threads in backend
+2022-10-12 13:06:20,429 INFO    MainThread:31716 [wandb_run.py:_console_start():1896] atexit reg
+2022-10-12 13:06:20,430 INFO    MainThread:31716 [wandb_run.py:_redirect():1769] redirect: SettingsConsole.WRAP
+2022-10-12 13:06:20,430 INFO    MainThread:31716 [wandb_run.py:_redirect():1806] Wrapping output streams.
+2022-10-12 13:06:20,432 INFO    MainThread:31716 [wandb_run.py:_redirect():1830] Redirects installed.
+2022-10-12 13:06:20,432 INFO    MainThread:31716 [wandb_init.py:init():685] run started, returning control to user process
+2022-10-12 13:06:20,432 INFO    MainThread:31716 [wandb_config.py:__setitem__():153] config set hyper_patamter = {'State_size': 128, 'learning_rate_Actor': 0.0001, 'learning_rate_Critic': 0.0002, 'gamma': 0.95, 'batch_size': 128, 'Tau': 0.005, 'Train_actor_each_critic': 3, 'Explore_noise_std': 0.1, 'semantic_segmentation': 0, 'Policy_noise_std': 0.2, 'Regularizer_L2': 0.001, 'PER_IS': 1, 'EfficientNet': 0} - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x000001D56380DC48>>
+2022-10-12 13:06:20,432 INFO    MainThread:31716 [wandb_run.py:_config_callback():1129] config_cb hyper_patamter {'State_size': 128, 'learning_rate_Actor': 0.0001, 'learning_rate_Critic': 0.0002, 'gamma': 0.95, 'batch_size': 128, 'Tau': 0.005, 'Train_actor_each_critic': 3, 'Explore_noise_std': 0.1, 'semantic_segmentation': 0, 'Policy_noise_std': 0.2, 'Regularizer_L2': 0.001, 'PER_IS': 1, 'EfficientNet': 0} None
+2022-10-12 13:08:46,433 INFO    MainThread:31716 [wandb_run.py:_atexit_cleanup():1865] got exitcode: 1
+2022-10-12 13:08:46,434 INFO    MainThread:31716 [wandb_run.py:_restore():1837] restore
+2022-10-12 13:08:52,325 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:08:57,448 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:02,565 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:07,676 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:12,795 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:17,907 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:23,029 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:28,149 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:33,259 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:38,369 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:43,485 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:48,603 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:53,714 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:09:58,826 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:10:03,942 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:10:09,054 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:10:14,173 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
+2022-10-12 13:10:19,297 INFO    MainThread:31716 [wandb_run.py:_on_finish():1995] got exit ret: None
