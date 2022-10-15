@@ -39,8 +39,6 @@ random.seed(1)
 np.random.seed(1)
 
 SHOW_PREVIEW = False
-IM_WIDTH = 128
-IM_HEIGHT = 128
 SMOOTHING_NUM = 6
 MAX_DISTANCE = 8
 RECOMMEND_V = 30
@@ -52,8 +50,6 @@ REWARD_ACCEL = 1
 class CarEnv:
     SHOW_CAM = SHOW_PREVIEW
     STEER_AMT = 1.0
-    im_width = IM_WIDTH
-    im_height = IM_HEIGHT
     front_camera = None
     
     def __init__(self, segmentation, state_size):

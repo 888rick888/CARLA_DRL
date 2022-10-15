@@ -1,0 +1,24 @@
+{
+    "os": "Windows-10-10.0.19041-SP0",
+    "python": "3.7.11",
+    "heartbeatAt": "2022-10-15T08:33:03.413234",
+    "startedAt": "2022-10-15T08:32:59.365236",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "gpu_count": 1,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "td3.py",
+    "codePath": "DRL\\TD3\\td3.py",
+    "git": {
+        "remote": "git@github.com:888rick888/CARLA_DRL.git",
+        "commit": "0fc33a91044b234c39fb69b8f4452a1c122522c6"
+    },
+    "email": "18820675842@163.com",
+    "root": "D:/pzs/DRL/CARLA_DRL",
+    "host": "DESKTOP-GCEQ7RN",
+    "username": "scutracing",
+    "executable": "D:\\pzs\\setup\\miniconda\\envs\\test\\python.exe"
+}

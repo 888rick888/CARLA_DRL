@@ -10,7 +10,6 @@ import signal
 import time
 import cv2
 
-# from tensorflow.python.keras.saving.save import load_model
 import tensorflow as tf
 # import tensorflow.compat.v1 as tf
 # tf.compat.v1.disable_v2_behavior()
@@ -45,7 +44,6 @@ from Noise import ActionNoise, AdaptiveParamNoiseSpec
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR) # 隐藏warning
 
-# from tensorflow.python.keras.utils.generic_utils import default
 
 try:
     sys.path.append(glob.glob('D:\pzs\CARLA_0.9.12\WindowsNoEditor\PythonAPI\carla\dist\carla-*%d.%d-%s.egg' % (
@@ -103,7 +101,7 @@ NOISE_POLICY_STD = 0.2
 REGULARIZER_L2 = 0.001
 
 EPSILON = 0.999
-# EPSILON = 0.001
+EPSILON = 0.001
 EPSILON_DECAY = 0.999
 
 RANDOM_ACTION = 1
@@ -114,7 +112,7 @@ PLOT = 1
 # LOG_PATH = '/D:/pzs/code/ddpg/DDPG_PER/log/'
 
 if TRAIN:
-    wandb.init(project="DRL_TD3", entity="rickkkkk", reinit=True, name="Camera128-256_V2Xvector_SpatateReward")
+    wandb.init(project="DRL_TD3", entity="rickkkkk", reinit=True, name="Continue_Camera128-256_V2Xvector_SpatateReward")
     wandb.config.hyper_patamter = {
         "State_size": STATE_SIZE,
         "learning_rate_Actor": LR_A,
@@ -142,7 +140,6 @@ class Agent(object):
         self.gamma = GAMMA
         self.epsilon_decay = EPSILON_DECAY
         self.tau = TAU
-        # self.memory = deque(maxlen=400000)
         self.batch_size = BATCH_SIZE
         self.buff = Memory(BUFF_SIZE, PER)
         self.noise = ActionNoise(mu=0, sigma=1)
@@ -221,7 +218,6 @@ class Agent(object):
     def remember(self,s_t,action,reward,s_t1,done):
         experiences = (s_t,action,reward,s_t1,done)
         self.buff.store(experiences)
-        # self.memory.append(experiences)
  
     def train(self):
         if self.buff.num < self.batch_size: 
@@ -232,7 +228,6 @@ class Agent(object):
 
         self.samples = samples
         self.s_ts, self.actions, self.rewards, self.s_ts1, self.dones, self.s_ts_v2x, self.s_ts1_v2x = self.stack_samples(self.samples)
-        # self.s_ts, self.actions, self.rewards, self.s_ts1, self.dones = self.s_ts.astype(np.float32), self.actions.astype(np.float32), self.rewards.astype(np.float32), self.s_ts1.astype(np.float32), self.dones.astype(np.float32)
         target_actions = self.target_actor_model([self.s_ts1, self.actions, self.s_ts1_v2x], training=True)
         target_actions = tf.convert_to_tensor(self.noise.add_noise(target_actions, std=NOISE_POLICY_STD))
         q_value, q_target = self.train_net(self.s_ts, self.actions, self.rewards, self.s_ts1, self.dones, target_actions, self.s_ts_v2x, self.s_ts1_v2x)
@@ -265,7 +260,6 @@ class Agent(object):
         with tf.GradientTape() as tape:
             critic_value = self.critic_model([s_ts, actions, s_ts_v2x], training=True)
             critic_loss = self.ISWeights * tf.math.reduce_mean( tf.math.square(y - critic_value))
-
         # tf.print("+++++ The critic loss is ", critic_loss, "+++++")
 
         critic_grad = tape.gradient(critic_loss, self.critic_model.trainable_variables)
