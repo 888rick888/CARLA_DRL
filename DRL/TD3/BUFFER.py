@@ -107,8 +107,6 @@ class Memory(object):
             td = min(self.td_error_upper, td+self.epsilon)
             p = np.power(td, self.alpha)
             self.tree.update(ti, p)
-
-        
     
     @property
     def pointer(self):

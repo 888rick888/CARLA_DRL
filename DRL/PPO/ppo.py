@@ -83,7 +83,7 @@ TRAIN = 1
 PLOT = 1
 GAE = 0
 
-STATE_SIZE = 128
+STATE_SIZE = 256
 ACTION_DIM = 1
 SEGMENTATION = 0
 EFFICIENT = 0
@@ -107,7 +107,7 @@ LAM = 0.5
 if GAE:
     GAMMA = 0.98
 
-wandb.init(project="DRL_PPO", entity="rickkkkk", reinit=True, name="changeCamera_puish_NoCAR_1017_5.16")
+wandb.init(project="DRL_PPO", entity="rickkkkk", reinit=True, name="changeCamera_128>256_1017_10.13")
 wandb.config.hyper_patamter = {
     "State_size": STATE_SIZE,
     "learning_rate_Actor": LR_A,
