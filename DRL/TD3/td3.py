@@ -474,8 +474,7 @@ if __name__ == "__main__":
         
             env.des()
 
-            if e%500 == 0 and e is not 0:
-            # if e%500 == 0 and e is not 0:
+            if e%100 == 0 and e is not 0:
                 agent.save_model()
             if step >= 2000 and e > 10:
                 agent.save_model()
