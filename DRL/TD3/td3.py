@@ -17,7 +17,7 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.layers import Dense, Dropout, Input, Flatten, BatchNormalization, Add, Concatenate, Conv2D, MaxPooling2D
 from tensorflow.keras.optimizers import Adam
-# import tensorflow.keras.backend as K
+import tensorflow.keras.backend as K
 from tensorflow.keras.applications.xception import Xception
 from tensorflow.keras.applications import EfficientNetB0 as EfficientNet
 from tensorflow.python.keras.layers.pooling import GlobalAveragePooling2D, GlobalMaxPooling2D

@@ -55,8 +55,9 @@ class CarEnv:
     def __init__(self, segmentation, state_size):
         # self.client = carla.Client("125.217.226.130",2000)
         # self.client = carla.Client("10.168.3.204",2000)
-        self.client = carla.Client("localhost",2000)
+        # self.client = carla.Client("localhost",2000)
         # self.client = carla.Client("125.217.226.196",2000)
+        self.client = carla.Client("125.217.226.228",2010)
 
         self.client.set_timeout(30.0)
         # self.world = self.client.reload_world() # 重启世界
