@@ -184,6 +184,7 @@ class Agent(object):
         h2 = Dense(256,activation='elu')(h1)
         Action = Dense(ACTION_DIM, activation='tanh')(h2)
         model = Model(inputs=[state_input, steer_input, v2x_input], outputs=Action)
+        model.summary()
         return state_input, model
 
     def create_critic_model(self):
@@ -400,7 +401,7 @@ if __name__ == "__main__":
     # agent.critic_model.compile(loss="mse",optimizer=adam_c, metrics=["acc"])
     # agent.critic_model_2.compile(loss="mse",optimizer=adam_c, metrics=["acc"])
     # agent.actor_model.compile(loss="mse",optimizer=adam_a, metrics=["acc"])
-    # K.clear_session()
+    K.clear_session()
     agent.target_setweight()  
     env = CarEnv(SEGMENTATION, STATE_SIZE)
 
@@ -409,6 +410,7 @@ if __name__ == "__main__":
     #     try:
     if TRAIN :
         for e in range(TRAIN_EPISODES):
+            K.clear_session()
             obs = env.reset()
             epoch_reward = 0
             step = 0
@@ -517,4 +519,3 @@ if __name__ == "__main__":
             print('Testing  | Episode: {}/{}  | Episode Reward: {:.4f}  | Final_step {}| Running Time: {:.4f}'.format(
                     episode + 1, TEST_EPISODES, episode_reward, final_step,time.time() - t0))
         # except: print("===== Something is wrong =====")
-                

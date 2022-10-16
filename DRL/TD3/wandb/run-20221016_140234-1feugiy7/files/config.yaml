@@ -4,18 +4,16 @@ _wandb:
   desc: null
   value:
     cli_version: 0.12.14
-    framework: keras
+    framework: tensorflow
     is_jupyter_run: false
     is_kaggle_kernel: false
     python_version: 3.7.11
-    start_time: 1665824120
+    start_time: 1665900155
     t:
       1:
-      - 2
       - 3
       - 55
       2:
-      - 2
       - 3
       - 55
       3:
