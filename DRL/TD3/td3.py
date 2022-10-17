@@ -401,7 +401,6 @@ if __name__ == "__main__":
     # agent.critic_model.compile(loss="mse",optimizer=adam_c, metrics=["acc"])
     # agent.critic_model_2.compile(loss="mse",optimizer=adam_c, metrics=["acc"])
     # agent.actor_model.compile(loss="mse",optimizer=adam_a, metrics=["acc"])
-    K.clear_session()
     agent.target_setweight()  
     env = CarEnv(SEGMENTATION, STATE_SIZE)
 
@@ -410,7 +409,6 @@ if __name__ == "__main__":
     #     try:
     if TRAIN :
         for e in range(TRAIN_EPISODES):
-            K.clear_session()
             obs = env.reset()
             epoch_reward = 0
             step = 0
