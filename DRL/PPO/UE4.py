@@ -66,7 +66,7 @@ class CarEnv:
         # self.client = carla.Client("125.217.226.196",2000)
 
         self.client.set_timeout(110.0)
-        self.world = self.client.reload_world() # 重启世界
+        # self.world = self.client.reload_world() # 重启世界
         print("===  reloading world ......  ===")
 
         # self.world = self.client.load_world('Town04')

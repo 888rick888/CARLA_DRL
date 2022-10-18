@@ -393,6 +393,7 @@ if __name__ == "__main__":
     stop = False
     final_step = []
     rewards = []
+    K.clear_session()
 
     agent = Agent()
     agent.load_model()

@@ -18,12 +18,11 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.layers import Dense, Dropout, Input, Flatten, BatchNormalization, Add, Concatenate, Conv2D
 from tensorflow.keras.optimizers import Adam
-# import tensorflow.keras.backend as K
+import tensorflow.keras.backend as K
 from tensorflow.keras.applications.xception import Xception
 from tensorflow.keras.applications import EfficientNetB0 as EfficientNet
 from tensorflow.python.keras.layers.pooling import GlobalAveragePooling2D, GlobalMaxPooling2D, MaxPooling2D
 import tensorflow_probability as tfp
-# from keras.utils.visualize_util import plot
 from tensorflow.python.keras.utils.vis_utils import plot_model
 
 # os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -231,6 +230,7 @@ class Agent(object):
         if RECORD_LOSS:
             wandb.log({"Actor_loss": loss})
 
+    # @tf.function
     def train_critic(self, reward, state, state1):
         reward = np.array(reward, dtype=np.float32)
         with tf.GradientTape() as tape:
@@ -303,7 +303,6 @@ class Agent(object):
         except:
             print('---------------------------Can not save model----------------------------------')
 
-
     def load_model(self):
         try:
             self.actor_model=load_model(f"carla_ppo_actor.h5")
@@ -370,6 +369,7 @@ if __name__ == "__main__":
     rewards = []
     final_step = []
     max_step = 2500
+    K.clear_session()
 
     env = CarEnv(SEGMENTATION, STATE_SIZE)
     agent = Agent()
@@ -387,25 +387,22 @@ if __name__ == "__main__":
             state = env.reset()
             epoch_reward = 0
             step = 0
-            # state = state
-            # s_t = np.reshape(obs, (STATE_SIZE,STATE_SIZE,3))/255
             for t in range(MAX_STEPS):
                 step += 1
-                # s_t = np.reshape(s_t, (STATE_SIZE,STATE_SIZE,3))
 
-                # control = env.agent_action()
-                # a_predict, action = agent.act(s_t, control)
                 action = agent.get_action(state)        
-                # action = np.reshape(action, (1,ACTION_DIM))
                 state_, reward, done, _ = env.step(action)
+                
                 agent.store_transition(state, action, reward)
+                
                 state = state_ 
                 epoch_reward += (reward[0] + reward[1]) * 0.5
 
-                print("episode:{} step:{}  action:{} reward:{}".format(e,step,action,reward))
                 if len(agent.state_buffer) >= BATCH_SIZE:
                     agent.finish_path(state_, done)
                     agent.update()
+                
+                print("episode:{} step:{}  action:{} reward:{}".format(e,step,action,reward))
                 if done:
                     break
 
@@ -423,7 +420,6 @@ if __name__ == "__main__":
             print('Training  | Episode: {}/{}  | Episode Reward: {:.4f}  | Running Time: {:.4f}'.format(
                     e + 1, TRAIN_EPISODES, epoch_reward, time.time() - t0))
     
-                # print("episode:{} step:{} predict_action:{} action:{} reward:{}".format(e,step,a_predict,action,reward))
             if e == 0:
                 rewards.append(epoch_reward)
             else:
@@ -431,7 +427,6 @@ if __name__ == "__main__":
             final_step.append(step)
 
             wandb.log({"rewards": rewards[-1], "final_step": step})
-            # wandb.log({"final_step": step})
 
             if e%2000 == 0 and e is not 0:
                 plot(final_step,rewards)
