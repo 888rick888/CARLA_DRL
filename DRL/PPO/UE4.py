@@ -41,9 +41,15 @@ np.random.seed(1)
 SEGMENTATION = 1
 
 SHOW_PREVIEW = False
-IM_WIDTH = 128
-IM_HEIGHT = 128
 SMOOTHING_NUM = 10
+
+MAX_DISTANCE = 8
+RECOMMEND_V = 30
+
+REWARD_ANGLE = 1
+REWARD_DISTANCE = 1
+REWARD_ACCEL = 1
+
 
 A = 1
 D = 1
@@ -51,8 +57,6 @@ D = 1
 class CarEnv:
     SHOW_CAM = SHOW_PREVIEW
     STEER_AMT = 1.0
-    im_width = IM_WIDTH
-    im_height = IM_HEIGHT
     front_camera = None
     
     def __init__(self, segmentation, state_size):
@@ -110,7 +114,6 @@ class CarEnv:
         while self.vehicle == None:
             # self.transform = random.choice(self.world.get_map().get_spawn_points()) #total 155 points
             self.transform = self.world.get_map().get_spawn_points()[self.spawn_point()]        #data clean 2.25
-            # self.transform = self.world.get_map().get_spawn_points()[26]        #data clean 2.25
             self.vehicle = self.world.try_spawn_actor(self.EP9, self.transform)
         self.actor_list.append(self.vehicle)
 
@@ -154,7 +157,8 @@ class CarEnv:
         
         self.settings.synchronous_mode = True
         self.world.apply_settings(self.settings)
-        return self.front_camera
+        vector = self.get_V2X()
+        return [self.front_camera, vector]
 
     def collision_data(self,event):
         self.collision_hist.append(event)
@@ -205,6 +209,11 @@ class CarEnv:
     def step(self,action):
         done = False
         a_steer = float(action[0])
+        a_accel = float(action[1])
+        brake = 0
+        if a_accel < 0:
+            brake = abs(a_accel)
+        reward = np.zeros(2)
 
         lane_waypoint = self.map.get_waypoint(self.vehicle.get_location(),project_to_road=True, lane_type=(carla.LaneType.Driving | carla.LaneType.Sidewalk))
         vehicle_transform = self.vehicle.get_transform()
@@ -221,48 +230,43 @@ class CarEnv:
         reward_a = math.cos(radian)-math.sin(radian) #high_value is 1.41 
         reward_d = np.clip(math.exp(distance) - 1, 0 , 2.81)
 
-        # self.light, self.light_state, self.at_light = self.get_traffic_status()
-        # _, _, is_at = self.get_traffic_status()
-        # if is_at is True: brake = 1.0
-        # else : brake = 0.0
-
-        # front_vehicle = self.get_V2X()
-        # if front_vehicle is True: brake = 1.0
-        # else : brake = 0.0
-        brake = 0.0
-
-        # control = self.agent_action()
-        # reward = - np.abs(a_steer - float(control.steer), dtype="float64") 
-        # reward *= 10
-        # print("-=-=-=-=---=", control.steer)
-
-        self.vehicle.apply_control(carla.VehicleControl(throttle=self.throttle(), steer=a_steer*self.STEER_AMT, brake=brake))
+        self.vehicle.apply_control(carla.VehicleControl(throttle=a_accel, steer=a_steer*self.STEER_AMT, brake=brake))
         self.world.tick()
         # self.world.wait_for_tick()
-        # print("===self.lane_text===", self.lane_text)
+
+        reward[0] = REWARD_ANGLE * reward_a - REWARD_DISTANCE * reward_d
+        reward[0] -= abs(a_steer) / 3
+
+
+        v2x_vector = self.get_V2X()
+        # reward[1] = - abs(v2x_vector[3] - v2x_vector[0]*3) - v2x_vector[2]*0.5 - min((v2x_vector[1] + v2x_vector[4])/(v2x_vector[1] * v2x_vector[4] + 0.00001), 5)
+        reward[1] = - abs(v2x_vector[3]/3 - v2x_vector[0])*2  + 1
+        if a_accel < 0:
+            reward[1] -= abs(a_accel)
+        reward[1] *= REWARD_ACCEL
+        # print("the reward of accel is ", -(v2x_vector[3] - v2x_vector[0]*3)*2, - v2x_vector[2]*0.5, - min((v2x_vector[1] + v2x_vector[4])/(v2x_vector[1] * v2x_vector[4] + 0.00001), 5))
+
         if len(self.collision_hist) != 0:
             done = True
-            # reward_sensor = -1
+            reward[0] = -10
+            reward[1] = -10
         elif self.lane_text[0] == "'Solid'" or self.lane_text[0] == "'SolidSolid'" or self.lane_text[0] == "'Broken'":
             done = True
-            # reward_sensor = -1
             self.lane_text = ["'s'"]
+            reward[0] = -10
+            reward[1] = -2
         elif distance > 1:
             done = True
+            reward[0] = -10
+            reward[1] = -2
+        elif v2x_vector[2] > 1:
+            done = True
+            reward[0] = -2
+            reward[1] = -10
         else:
             done = False
-            # reward_sensor = 0
 
-        # if abs(self.steer_t-a_steer) > 0.2:   转向舒适性
-        #     reward_v -= 2
-        # self.steer_t = a_steer
-
-        reward = A * reward_a - D * reward_d
-        reward -= abs(a_steer)
-        # if abs(a_steer) > 0.5  : reward -= 5
-
-        if done : reward = -10
-        return self.front_camera,reward,done,None
+        return [self.front_camera, v2x_vector],reward,done,None
 
     def des(self):
         self.settings.synchronous_mode = False
@@ -284,18 +288,33 @@ class CarEnv:
         # return random.choice(line+line_to_turn)
         return random.choice(line_out)
         
-    def agent_action(self):
-        agent = BasicAgent(self.vehicle)
-        control = agent.run_step()
-        control.manual_gear_shift = False
-        return control
+    # def agent_action(self):
+    #     agent = BasicAgent(self.vehicle)
+    #     control = agent.run_step()
+    #     control.manual_gear_shift = False
+    #     return control
     
+    def calc_distance(self, target_rear_transform, front_transform, max_vehicle_distance):
+        x = (target_rear_transform.location.x-front_transform.location.x)**2
+        y = (target_rear_transform.location.y-front_transform.location.y)**2
+        return math.sqrt(x+y)
+        if max_vehicle_distance > math.sqrt(x+y):
+            return True
+        else: return False
+
     def get_V2X(self):
+        #将路侧信息转换为向量
+        #目前向量长度为5，[自车车速/30， 车车距离/8， 红绿灯0or10， 推荐速度/10， 人车距离/10]
         vehicle_list = self.world.get_actors().filter("*vehicle*")
         walker_list = self.world.get_actors().filter("*walker*")
         lights_list = self.world.get_actors().filter("*traffic_light*")
-        max_vehicle_distance = 4
-        # max_vehicle_distance = self.max_distance
+        max_vehicle_distance = MAX_DISTANCE
+        vector = np.zeros(5)
+
+        v =  self.vehicle.get_velocity()
+        kmh = int(3.6*math.sqrt(v.x**2 + v.y**2 + v.z**2))
+        vector[0] = kmh/30
+        vector[3] = RECOMMEND_V / 10
 
         ego_transform = self.vehicle.get_transform()
         ego_waypoint = self.map.get_waypoint(self.vehicle.get_location())
@@ -304,9 +323,34 @@ class CarEnv:
         front_transform = ego_transform
         front_transform.location += carla.Location(x=extent * forward_vector.x, y=extent * forward_vector.y)
 
-        # for target_walker in walker_list:
-        #     pass
-        
+        for target_walker in walker_list:
+            walker_transform = target_walker.get_transform()
+            walker_waypoing = self.map.get_waypoint(walker_transform.location)
+            if walker_waypoing.road_id != ego_waypoint.road_id or walker_waypoing.lane_id != ego_waypoint.lane_id:
+                continue
+            distance_walker = self.calc_distance(walker_transform, front_transform, max_vehicle_distance)
+            if distance_walker < max_vehicle_distance:
+                vector[4] = distance_walker / 10
+
+        for target_light in lights_list:
+            # light_transform = target_light.get_transform()
+            # light_waypoint = self.map.get_waypoint(light_transform.location)
+            light_location = self.get_trafficlight_trigger_location(target_light)
+            light_waypoint = self.map.get_waypoint(light_location)
+            if light_waypoint.road_id != ego_waypoint.road_id or light_waypoint.lane_id != ego_waypoint.lane_id:
+                continue
+
+            ve_dir = forward_vector
+            wp_dir = light_waypoint.transform.get_forward_vector()
+            dot_ve_wp = ve_dir.x * wp_dir.x + ve_dir.y * wp_dir.y + ve_dir.z * wp_dir.z
+            if dot_ve_wp < 0:
+                continue
+
+            if target_light.state == carla.TrafficLightState.Green :
+                continue
+            if self.calc_distance(light_waypoint.transform, front_transform, max_vehicle_distance) < max_vehicle_distance:
+                vector[2] = 10
+
         for target_vehicle in vehicle_list:
             target_transform = target_vehicle.get_transform()
             target_waypoint = self.map.get_waypoint(target_transform.location)
@@ -314,11 +358,11 @@ class CarEnv:
                 continue
             if target_waypoint.road_id != ego_waypoint.road_id or target_waypoint.lane_id != ego_waypoint.lane_id:
                 continue
-                next_wpt = self._local_planner.get_incoming_waypoint_and_direction(steps=3)[0]
-                if not next_wpt:
-                    continue
-                if target_waypoint.road_id != next_wpt.road_id or target_waypoint.lane_id != next_wpt.lane_id:
-                    continue
+                # next_wpt = self._local_planner.get_incoming_waypoint_and_direction(steps=3)[0]
+                # if not next_wpt:
+                #     continue
+                # if target_waypoint.road_id != next_wpt.road_id or target_waypoint.lane_id != next_wpt.lane_id:
+                #     continue
 
             target_forward_vector = target_transform.get_forward_vector()
             target_extent = target_vehicle.bounding_box.extent.x
@@ -327,18 +371,34 @@ class CarEnv:
                 x=target_extent * target_forward_vector.x,
                 y=target_extent * target_forward_vector.y,
             )
-            # if self.is_within_distance(target_rear_transform, front_transform, max_vehicle_distance, [0, 90]):
+
+            # if self.calc_distance(target_rear_transform, front_transform, max_vehicle_distance, [0, 90]):
             # if self.within_distance(target_rear_transform, front_transform, max_vehicle_distance):
-            x = (target_rear_transform.location.x-front_transform.location.x)**2
-            y = (target_rear_transform.location.y-front_transform.location.y)**2
-            if max_vehicle_distance > math.sqrt(x+y):
-                return True
+            distance_vehicle = self.calc_distance(target_rear_transform, front_transform, max_vehicle_distance)
+            if distance_vehicle < max_vehicle_distance:
+                vector[1] = distance_vehicle / 8
                 # return front_transform, target_rear_transform
-        return False
+        return np.array(vector, np.float32)
+
     def smoothing(self, action):
         for i in range(len(self.smoothing_list)-1):
             self.smoothing_list[i] = self.smoothing_list[i+1]
         self.smoothing_list[-1] = action
         return np.mean(self.smoothing_list)
 
+    def get_trafficlight_trigger_location(self,traffic_light):
+        def rotate_point(point, radians):
+            rotated_x = math.cos(radians) * point.x - math.sin(radians) * point.y
+            rotated_y = math.sin(radians) * point.x - math.cos(radians) * point.y
+            return carla.Vector3D(rotated_x, rotated_y, point.z)
+
+        base_transform = traffic_light.get_transform()
+        base_rot = base_transform.rotation.yaw
+        area_loc = base_transform.transform(traffic_light.trigger_volume.location)
+        area_ext = traffic_light.trigger_volume.extent
+
+        point = rotate_point(carla.Vector3D(0, 0, area_ext.z), math.radians(base_rot))
+        point_location = area_loc + carla.Location(x=point.x, y=point.y)
+
+        return carla.Location(point_location.x, point_location.y, point_location.z)
 

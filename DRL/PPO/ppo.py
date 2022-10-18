@@ -11,7 +11,6 @@ from datetime import datetime
 import pandas as pd
 import scipy.signal
 
-# from tensorflow.python.keras.saving.save import load_model
 import tensorflow as tf
 # import tensorflow.compat.v1 as tf
 # tf.compat.v1.disable_v2_behavior()
@@ -26,6 +25,7 @@ from tensorflow.python.keras.layers.pooling import GlobalAveragePooling2D, Globa
 import tensorflow_probability as tfp
 # from keras.utils.visualize_util import plot
 from tensorflow.python.keras.utils.vis_utils import plot_model
+
 # os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 gpus = tf.config.experimental.list_physical_devices('GPU')#获取GPU列表
 print('----gpus---',gpus)
@@ -41,8 +41,6 @@ print('----gpus---',gpus)
 import matplotlib.pyplot as plt
 import wandb
 from UE4 import CarEnv
-
-# from tensorflow.python.keras.utils.generic_utils import default
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR) # 隐藏warning
 
@@ -72,7 +70,6 @@ except IndexError:
 import carla
 
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 RANDOMSEED = 1
 tf.random.set_seed(RANDOMSEED)
 random.seed(RANDOMSEED)
@@ -84,7 +81,8 @@ PLOT = 1
 GAE = 0
 
 STATE_SIZE = 256
-ACTION_DIM = 1
+ACTION_DIM = 2
+V2X_DIM = 5 
 SEGMENTATION = 0
 EFFICIENT = 0
 
@@ -107,7 +105,7 @@ LAM = 0.5
 if GAE:
     GAMMA = 0.98
 
-wandb.init(project="DRL_PPO", entity="rickkkkk", reinit=True, name="changeCamera_128>256_1017_10.13")
+wandb.init(project="DRL_PPO", entity="rickkkkk", reinit=True, name="Camera128>256_v2xVector_sparateReward")
 wandb.config.hyper_patamter = {
     "State_size": STATE_SIZE,
     "learning_rate_Actor": LR_A,
@@ -121,12 +119,6 @@ wandb.config.hyper_patamter = {
     "EfficientNet": EFFICIENT
 }
 
-
-# TENSORBOARD = 0
-# LOG_PATH = './log/'
-# LOG_PATH = 'D:\\pzs\\code\\ddpg\\DDPG_PER\\log'
-# LOG_PATH = '/D:/pzs/code/ddpg/DDPG_PER/log/'
-
 def my_handler(signum, frame):
     global stop
     stop = True
@@ -134,10 +126,6 @@ def my_handler(signum, frame):
 
 class Agent(object):
     def __init__(self):
-        # sess = tf.compat.v1.Session()
-        # tf.compat.v1.keras.backend.set_session(sess)
-
-        # self.sess = sess
         self.epsilon = EPSILON
         self.gamma = GAMMA
         self.batch_size = BATCH_SIZE
@@ -152,7 +140,7 @@ class Agent(object):
         elif self.method == 'clip':
             self.epsilon = EPSILON
 
-        self.actor_state_input, self.actor_model = self.create_actor_model()
+        self.actor_model = self.create_actor_model()
         # _, self.actor_old_model = self.create_actor_model()
         
         self.critic_model = self.create_critic_model()
@@ -160,23 +148,15 @@ class Agent(object):
         self.critic_optimizer = tf.keras.optimizers.Adam(LR_C)
         self.actor_optimizer = tf.keras.optimizers.Adam(LR_A)
 
-        # self.actor_opt = tf.optimizers.Adam(LR_A)
-        # self.critic_opt = tf.optimizers.Adam(LR_C)
-
-        self.state_buffer, self.action_buffer = [], []
+        self.state_buffer, self.v2x_buffer, self.action_buffer = [], [], []
         self.reward_buffer, self.cumulative_reward_buffer = [], []
 
     def create_actor_model(self):
         state_input = Input(shape=(STATE_SIZE,STATE_SIZE,3))
+        v2x_input = Input(shape=(V2X_DIM))
         if EFFICIENT:
             a_5 = EfficientNet(include_top=False, weights=None)(state_input)
         else:
-            # a_1 = Conv2D(8, 3, activation='relu', padding='same')(state_input)
-            # a_2 = Conv2D(16, 3, activation='relu', padding='same')(a_1)
-            # a_3 = Conv2D(32, 3, activation='relu', padding='same')(a_2)
-            # a_4 = Conv2D(32, 3, activation='relu', padding='same')(a_3)
-            # a_5 = Conv2D(64, 3, activation='relu', padding='same')(a_4)
-
             a_11 = Conv2D(8, 3, activation='relu', padding='same')(state_input)
             a_1 = MaxPooling2D(pool_size=(2, 2), strides=None, padding='same')(a_11)
             a_22 = Conv2D(16, 3, activation='relu', padding='same')(a_1)
@@ -188,28 +168,23 @@ class Agent(object):
             a_55 = Conv2D(8, 3, activation='relu', padding='same')(a_4)
             a_5 = MaxPooling2D(pool_size=(2, 2), strides=None, padding='same')(a_55)
 
-        # a_5 = GlobalMaxPooling2D()(a_5)
         state_h0 = Flatten()(a_5)
-        h12 = Dense(128,activation='relu')(state_h0)
-        h2 = Dense(64,activation='relu')(h12)
-        Steering_mean = Dense(1, activation='tanh')(h2)
-        Steering_sigma = Dense(1, activation='softplus')(h2)
-        # Speed = Dense(1, activation='tanh')(h2)
-        # output = Concatenate()([Steering, Speed])
-        model = Model(inputs=state_input, outputs=[Steering_mean, Steering_sigma])
-        return state_input, model
+        state_h1 = Dense(128,activation='relu')(state_h0)
+        state_output = Dense(64,activation='relu')(state_h1)
+        v2x_output = Dense(64, activation='elu')(v2x_input)
+        merge1 = Concatenate()([state_output, v2x_output])
+        h3 = Dense(64, activation='elu')(merge1)
+        Action_mean = Dense(ACTION_DIM, activation='tanh')(h3)
+        Action_sigma = Dense(ACTION_DIM, activation='softplus')(h3)
+        model = Model(inputs=[state_input, v2x_input], outputs=[Action_mean, Action_sigma])
+        return model
     
     def create_critic_model(self):
         state_input_c = Input(shape=(STATE_SIZE,STATE_SIZE,3))
+        v2x_input = Input(shape=(V2X_DIM))
         if EFFICIENT:
             c_5 = EfficientNet(include_top=False, weights=None)(state_input_c)
         else:
-            # c_1 = Conv2D(8, 3, activation='relu', padding='same')(state_input_c)
-            # c_2 = Conv2D(16, 3, activation='relu', padding='same')(c_1)
-            # c_3 = Conv2D(32, 3, activation='relu', padding='same')(c_2)
-            # c_4 = Conv2D(32, 3, activation='relu', padding='same')(c_3)
-            # a_5 = Conv2D(64, 3, activation='relu', padding='same')(c_4)
-
             a_11 = Conv2D(8, 3, activation='relu', padding='same')(state_input_c)
             a_1 = MaxPooling2D(pool_size=(2, 2), strides=None, padding='same')(a_11)
             a_22 = Conv2D(16, 3, activation='relu', padding='same')(a_1)
@@ -221,25 +196,29 @@ class Agent(object):
             a_55 = Conv2D(8, 3, activation='relu', padding='same')(a_4)
             a_5 = MaxPooling2D(pool_size=(2, 2), strides=None, padding='same')(a_55)
 
-
-        # a_5 = GlobalMaxPooling2D()(a_5)
         state_h0 = Flatten()(a_5)
         state_h11 = Dense(128,activation='elu')(state_h0)
-        state_h2 = Dense(64,activation='elu')(state_h11)
-        output_c = Dense(ACTION_DIM,activation='linear')(state_h2)
-        model_c = Model(inputs=state_input_c, outputs=output_c)
+        state_output = Dense(64,activation='elu')(state_h11)
+        v2x_output = Dense(64, activation='elu')(v2x_input)
+        merge = Concatenate()([state_output, v2x_output])
+        h1 = Dense(64, activation='elu')(merge)
+        output_c = Dense(ACTION_DIM,activation='linear')(h1)
+        model_c = Model(inputs=[state_input_c, v2x_input], outputs=output_c)
         return model_c
 
     # @tf.function
-    def train_actor(self,state, action, adv, old_pi):
+    def train_actor(self,state, state1, action, adv, old_pi_steer, old_pi_accel):
         with tf.GradientTape() as tape:
-            mean, std = self.actor_model(state)
-            pi = tfp.distributions.Normal(mean, std)
+            mean, std = self.actor_model(state, state1)
+            pi_steer = tfp.distributions.Normal(mean[0], std[0])
+            pi_accel = tfp.distributions.Normal(mean[1], std[1])
 
             # old_mean, old_std = self.actor_old_model(state)
             # old_pi = tfp.distributions.Normal(old_mean, old_std)
 
-            ratio = tf.exp(pi.log_prob(action) - old_pi.log_prob(action))
+            ratio0 = tf.exp(pi_steer.log_prob(action) - old_pi_steer.log_prob(action))
+            ratio1 = tf.exp(pi_accel.log_prob(action) - old_pi_accel.log_prob(action))
+            ratio = [ratio0, ratio1]
             surr = ratio * adv
             if self.method == 'penalty':  # ppo penalty
                 kl = tfp.distributions.kl_divergence(old_pi, pi)
@@ -258,11 +237,10 @@ class Agent(object):
         if RECORD_LOSS:
             wandb.log({"Actor_loss": loss})
 
-    def train_critic(self, reward, state):
-        
+    def train_critic(self, reward, state, state1):
         reward = np.array(reward, dtype=np.float32)
         with tf.GradientTape() as tape:
-            advantage = reward - self.critic_model(state)
+            advantage = reward - self.critic_model(state, state1)
             loss = tf.reduce_mean(tf.square(advantage))
         grad = tape.gradient(loss, self.critic_model.trainable_weights)
         # self.critic_opt.apply_gradients(zip(grad, self.critic_model.trainable_weights))
@@ -273,11 +251,14 @@ class Agent(object):
 
     def update(self):
         s = np.array(self.state_buffer, np.float32)
+        s1 = np.array(self.v2x_buffer, np.float32)
         a = np.array(self.action_buffer, np.float32)
         r = np.array(self.cumulative_reward_buffer, np.float32)
-        mean, std = self.actor_model(s)
-        pi = tfp.distributions.Normal(mean, std)
-        adv = r - self.critic_model(s)
+
+        mean, std = self.actor_model(s, s1)
+        pi_steering = tfp.distributions.Normal(mean[0], std[0])
+        pi_accel = tfp.distributions.Normal(mean[1], std[1])
+        adv = r - self.critic_model(s, s1)
         if GAE:
             adv = self.discounted_cumulative_sums(adv, self.gamma * self.lam)
         
@@ -286,32 +267,39 @@ class Agent(object):
         # update actor
         if self.method == 'kl_pen':
             for _ in range(ACTOR_UPDATE_STEPS):
-                kl = self.train_actor(s, a, adv, pi)
+                kl = self.train_actor(s, s1, a, adv, pi_steering, pi_accel)
             if kl < self.kl_target / 1.5:
                 self.lam /= 2
             elif kl > self.kl_target * 1.5:
                 self.lam *= 2
         else:
             for _ in range(ACTOR_UPDATE_STEPS):
-                self.train_actor(s, a, adv, pi)
+                self.train_actor(s, s1, a, adv, pi_steering, pi_accel)
 
         # update critic
         for _ in range(CRITIC_UPDATE_STEPS):
-            self.train_critic(r, s)
+            self.train_critic(r, s, s1)
 
         self.state_buffer.clear()
+        self.v2x_buffer.clear()
         self.action_buffer.clear()
         self.cumulative_reward_buffer.clear()
         self.reward_buffer.clear()
     
     def get_action(self, state, greedy=False):
-        state = state[np.newaxis, :].astype(np.float32)
-        mean, std = self.actor_model(state)
+        action = np.zeros(ACTION_DIM)
+        state0 = state[0][np.newaxis, :].astype(np.float32)
+        state1 = state[1][np.newaxis, :].astype(np.float32)
+        mean, std = self.actor_model(state0, state1)
+        print("I'm here ", mean, std)
         if greedy:
-            action = mean[0]
+            action[0] = mean[0]
+            action[1] = mean[1]
         else:
-            pi = tfp.distributions.Normal(mean, std)
-            action = tf.squeeze(pi.sample(1), axis=0)[0]  # choosing action
+            pi_steer = tfp.distributions.Normal(mean[0], std[0])
+            pi_accel = tfp.distributions.Normal(mean[1], std[1])
+            action[0] = tf.squeeze(pi_steer.sample(1), axis=0)[0]  # choosing action
+            action[1] = tf.squeeze(pi_accel.sample(1), axis=0)[0]  # choosing action
         return np.clip(action, -self.action_bound, self.action_bound)
 
     def save_model(self):
@@ -334,15 +322,18 @@ class Agent(object):
             print('---------------------------Can not load model----------------------------------')
 
     def store_transition(self, state, action, reward):
-        self.state_buffer.append(state)
+        self.state_buffer.append(state[0])
+        self.v2x_buffer.append(state[1])
         self.action_buffer.append(action)
         self.reward_buffer.append(reward)
     
     def finish_path(self, next_state, done):
+        state0 = np.array(next_state[0], np.float32)
+        state1 = np.array(next_state[1], np.float32)
         if done:
             v_s_ = 0
         else:
-            v_s_ = self.critic_model(np.array([next_state], np.float32))[0, 0]
+            v_s_ = self.critic_model(state0, state1)[0, 0]
         discounted_r = []
         for r in self.reward_buffer[::-1]:
             v_s_ = r + GAMMA * v_s_
@@ -415,7 +406,7 @@ if __name__ == "__main__":
                 state_, reward, done, _ = env.step(action)
                 agent.store_transition(state, action, reward)
                 state = state_ 
-                epoch_reward +=reward
+                epoch_reward += (reward[0] + reward[1]) * 0.5
 
                 print("episode:{} step:{}  action:{} reward:{}".format(e,step,action,reward))
                 if len(agent.state_buffer) >= BATCH_SIZE:
