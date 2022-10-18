@@ -207,18 +207,12 @@ class Agent(object):
         return model_c
 
     # @tf.function
-    def train_actor(self,state, state1, action, adv, old_pi_steer, old_pi_accel):
+    def train_actor(self,state, state1, action, adv, old_pi):
         with tf.GradientTape() as tape:
-            mean, std = self.actor_model(state, state1)
-            pi_steer = tfp.distributions.Normal(mean[0], std[0])
-            pi_accel = tfp.distributions.Normal(mean[1], std[1])
+            mean, std = self.actor_model([state, state1])
+            pi = tfp.distributions.Normal(mean, std)
 
-            # old_mean, old_std = self.actor_old_model(state)
-            # old_pi = tfp.distributions.Normal(old_mean, old_std)
-
-            ratio0 = tf.exp(pi_steer.log_prob(action) - old_pi_steer.log_prob(action))
-            ratio1 = tf.exp(pi_accel.log_prob(action) - old_pi_accel.log_prob(action))
-            ratio = [ratio0, ratio1]
+            ratio = tf.exp(pi.log_prob(action) - old_pi.log_prob(action))
             surr = ratio * adv
             if self.method == 'penalty':  # ppo penalty
                 kl = tfp.distributions.kl_divergence(old_pi, pi)
@@ -240,7 +234,7 @@ class Agent(object):
     def train_critic(self, reward, state, state1):
         reward = np.array(reward, dtype=np.float32)
         with tf.GradientTape() as tape:
-            advantage = reward - self.critic_model(state, state1)
+            advantage = reward - self.critic_model([state, state1])
             loss = tf.reduce_mean(tf.square(advantage))
         grad = tape.gradient(loss, self.critic_model.trainable_weights)
         # self.critic_opt.apply_gradients(zip(grad, self.critic_model.trainable_weights))
@@ -255,10 +249,9 @@ class Agent(object):
         a = np.array(self.action_buffer, np.float32)
         r = np.array(self.cumulative_reward_buffer, np.float32)
 
-        mean, std = self.actor_model(s, s1)
-        pi_steering = tfp.distributions.Normal(mean[0], std[0])
-        pi_accel = tfp.distributions.Normal(mean[1], std[1])
-        adv = r - self.critic_model(s, s1)
+        mean, std = self.actor_model([s, s1])
+        pi = tfp.distributions.Normal(mean, std)
+        adv = r - self.critic_model([s, s1])
         if GAE:
             adv = self.discounted_cumulative_sums(adv, self.gamma * self.lam)
         
@@ -267,14 +260,14 @@ class Agent(object):
         # update actor
         if self.method == 'kl_pen':
             for _ in range(ACTOR_UPDATE_STEPS):
-                kl = self.train_actor(s, s1, a, adv, pi_steering, pi_accel)
+                kl = self.train_actor(s, s1, a, adv, pi)
             if kl < self.kl_target / 1.5:
                 self.lam /= 2
             elif kl > self.kl_target * 1.5:
                 self.lam *= 2
         else:
             for _ in range(ACTOR_UPDATE_STEPS):
-                self.train_actor(s, s1, a, adv, pi_steering, pi_accel)
+                self.train_actor(s, s1, a, adv, pi)
 
         # update critic
         for _ in range(CRITIC_UPDATE_STEPS):
@@ -288,18 +281,17 @@ class Agent(object):
     
     def get_action(self, state, greedy=False):
         action = np.zeros(ACTION_DIM)
-        state0 = state[0][np.newaxis, :].astype(np.float32)
-        state1 = state[1][np.newaxis, :].astype(np.float32)
-        mean, std = self.actor_model(state0, state1)
-        print("I'm here ", mean, std)
+        state0, state1 = state[0], state[1]
+        state0 = state0[np.newaxis, :].astype(np.float32)
+        state1 = state1[np.newaxis, :].astype(np.float32)
+        mean, std = self.actor_model([state0, state1])
         if greedy:
-            action[0] = mean[0]
-            action[1] = mean[1]
+            action[0] = tf.squeeze(mean)[0]
+            action[1] = tf.squeeze(mean)[1]
         else:
-            pi_steer = tfp.distributions.Normal(mean[0], std[0])
-            pi_accel = tfp.distributions.Normal(mean[1], std[1])
-            action[0] = tf.squeeze(pi_steer.sample(1), axis=0)[0]  # choosing action
-            action[1] = tf.squeeze(pi_accel.sample(1), axis=0)[0]  # choosing action
+            pi = tfp.distributions.Normal(mean, std)
+            action[0] = tf.squeeze(pi.sample(1), axis=0)[0][0]
+            action[1] = tf.squeeze(pi.sample(1), axis=0)[0][1]
         return np.clip(action, -self.action_bound, self.action_bound)
 
     def save_model(self):
@@ -328,12 +320,14 @@ class Agent(object):
         self.reward_buffer.append(reward)
     
     def finish_path(self, next_state, done):
-        state0 = np.array(next_state[0], np.float32)
-        state1 = np.array(next_state[1], np.float32)
+        # state0 = np.array(next_state[0], np.float32)
+        # state1 = np.array(next_state[1], np.float32)
+        state0 = np.array(next_state[0], np.float32)[np.newaxis, :].astype(np.float32)
+        state1 = np.array(next_state[1], np.float32)[np.newaxis, :].astype(np.float32)
         if done:
             v_s_ = 0
         else:
-            v_s_ = self.critic_model(state0, state1)[0, 0]
+            v_s_ = self.critic_model([state0, state1])[0, 0]
         discounted_r = []
         for r in self.reward_buffer[::-1]:
             v_s_ = r + GAMMA * v_s_
