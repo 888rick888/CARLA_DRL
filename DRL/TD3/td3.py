@@ -217,7 +217,9 @@ class Agent(object):
         return state_input_c, action_input, model_c
  
     def remember(self,s_t,action,reward,s_t1,done):
-        experiences = (s_t,action,reward,s_t1,done)
+        s_t_state, s_t_v2x = s_t[0], s_t[1]
+        s_t_state1, s_t_v2x1 = s_t1[0], s_t1[1]
+        experiences = (s_t_state, s_t_v2x, action, reward, s_t_state1, s_t_v2x1, done)
         self.buff.store(experiences)
  
     def train(self):
@@ -326,22 +328,22 @@ class Agent(object):
         a_predict = self.actor_model([s_t, get_action, s_t_v2x])
         return a_predict, self.noise.add_noise(a_predict, std=NOISE_EXPLORE_STD)
 
-    def stack_samples(self, samples):       #maybe
-        s_ts = np.array([e[0][0] for e in samples], dtype='float32')
-        s_ts_v2x = np.array([e[0][1] for e in samples], dtype='float32')
-        actions = np.array([e[1] for e in samples], dtype='float32')
-        rewards = np.array([e[2] for e in samples], dtype='float32')
-        s_ts1 = np.array([e[3][0] for e in samples], dtype='float32')
-        s_ts1_v2x = np.array([e[3][1] for e in samples], dtype='float32')
-        dones = np.array([e[4] for e in samples], dtype='float32')
+    def stack_samples(self, samples):
+        s_ts = tf.convert_to_tensor(np.array([e[0] for e in samples], dtype='float32'))
+        s_ts_v2x = tf.convert_to_tensor(np.array([e[1] for e in samples], dtype='float32'))
+        actions = tf.convert_to_tensor(np.array([e[2] for e in samples], dtype='float32'))
+        rewards = tf.convert_to_tensor(np.array([e[3] for e in samples], dtype='float32'))
+        s_ts1 = tf.convert_to_tensor(np.array([e[4] for e in samples], dtype='float32'))
+        s_ts1_v2x = tf.convert_to_tensor(np.array([e[5] for e in samples], dtype='float32'))
+        dones = tf.convert_to_tensor(np.array([e[6] for e in samples], dtype='float32'))
 
-        s_ts = tf.convert_to_tensor(s_ts)
-        actions = tf.convert_to_tensor(actions)
-        rewards = tf.convert_to_tensor(rewards)
-        s_ts1 = tf.convert_to_tensor(s_ts1)
-        dones = tf.convert_to_tensor(dones)
-        s_ts_v2x = tf.convert_to_tensor(s_ts_v2x)
-        s_ts1_v2x = tf.convert_to_tensor(s_ts1_v2x)
+        # s_ts = tf.convert_to_tensor(s_ts)
+        # actions = tf.convert_to_tensor(actions)
+        # rewards = tf.convert_to_tensor(rewards)
+        # s_ts1 = tf.convert_to_tensor(s_ts1)
+        # dones = tf.convert_to_tensor(dones)
+        # s_ts_v2x = tf.convert_to_tensor(s_ts_v2x)
+        # s_ts1_v2x = tf.convert_to_tensor(s_ts1_v2x)
         return s_ts, actions, rewards, s_ts1, dones, s_ts_v2x, s_ts1_v2x
 
     def update_err(self,q_value, q_target):

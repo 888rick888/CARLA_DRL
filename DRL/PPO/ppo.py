@@ -77,7 +77,7 @@ np.random.seed(RANDOMSEED)
 RECORD_LOSS = 0
 TRAIN = 1
 PLOT = 1
-GAE = 0
+GAE = 1
 
 STATE_SIZE = 256
 ACTION_DIM = 2
@@ -91,8 +91,8 @@ LR_C = 0.0002
 GAMMA = 0.98
 TRAIN_EPISODES = 10000  # total number of episodes for training
 MAX_STEPS = 4000  # total number of steps for each episode
-ACTOR_UPDATE_STEPS = 5  # actor update steps
-CRITIC_UPDATE_STEPS = 5  # critic update steps
+ACTOR_UPDATE_STEPS = 8  # actor update steps
+CRITIC_UPDATE_STEPS = 8  # critic update steps
 EPSILON = 0.2 # ppo-clip parameters
 LAMBDA = 0.98
 
@@ -172,9 +172,10 @@ class Agent(object):
         state_output = Dense(64,activation='relu')(state_h1)
         v2x_output = Dense(64, activation='elu')(v2x_input)
         merge1 = Concatenate()([state_output, v2x_output])
-        h3 = Dense(64, activation='elu')(merge1)
-        Action_mean = Dense(ACTION_DIM, activation='tanh')(h3)
-        Action_sigma = Dense(ACTION_DIM, activation='softplus')(h3)
+        h3 = Dense(128, activation='elu')(merge1)
+        h4 = Dense(64, activation='elu')(h3)
+        Action_mean = Dense(ACTION_DIM, activation='tanh')(h4)
+        Action_sigma = Dense(ACTION_DIM, activation='softplus')(h4)
         model = Model(inputs=[state_input, v2x_input], outputs=[Action_mean, Action_sigma])
         return model
     
@@ -200,8 +201,9 @@ class Agent(object):
         state_output = Dense(64,activation='elu')(state_h11)
         v2x_output = Dense(64, activation='elu')(v2x_input)
         merge = Concatenate()([state_output, v2x_output])
-        h1 = Dense(64, activation='elu')(merge)
-        output_c = Dense(ACTION_DIM,activation='linear')(h1)
+        h1 = Dense(128, activation='elu')(merge)
+        h2 = Dense(64, activation='elu')(h1)
+        output_c = Dense(ACTION_DIM,activation='linear')(h2)
         model_c = Model(inputs=[state_input_c, v2x_input], outputs=output_c)
         return model_c
 
