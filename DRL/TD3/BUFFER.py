@@ -4,7 +4,6 @@ import numpy as np
 random.seed(1)
 np.random.seed(1)
 
-
 BUFF_SIZE = 1000000
 
 class SumTree(object):
@@ -39,7 +38,7 @@ class SumTree(object):
             if cl_idx >= len(self.tree):        
                 leaf_idx = parent_idx
                 break
-            else:     
+            else:
                 if v <= self.tree[cl_idx]:
                     parent_idx = cl_idx
                 else:
@@ -79,8 +78,6 @@ class Memory(object):
 
         else:self.buffer.append(memory)
         
-
-
     def sample(self, n):
         if self.per:
             batch_idx, batch_data, ISWeights = np.empty((n,), dtype=int), np.empty((n), dtype=object), np.empty(n)

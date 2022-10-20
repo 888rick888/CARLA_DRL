@@ -2,7 +2,6 @@ import numpy as np
 import time
 np.random.seed(1)
 
-
 EXPLORE = 10000
 
 class AdaptiveParamNoiseSpec(object):
@@ -39,7 +38,6 @@ class ActionNoise(object):
         self.epsilon = 1
         self.theta = 0.15
         self.dt = 1e-2
-
 
     def __call__(self):
         return np.random.normal(self.mu, self.sigma)

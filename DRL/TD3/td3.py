@@ -2,7 +2,6 @@ from ast import While
 import os
 import glob
 import sys
-from cv2 import merge
 import numpy as np
 import random
 from collections import deque
@@ -28,7 +27,6 @@ gpus = tf.config.experimental.list_physical_devices('GPU')#获取GPU列表
 print('----gpus---',gpus)
 # tf.config.experimental.set_virtual_device_configuration(gpus[0], [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=1024*16)])
 
-
 # from tensorflow.compat.v1 import ConfigProto            #solution for ERROR :Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR 
 # from tensorflow.compat.v1 import InteractiveSession     #
 # config = ConfigProto()                                  #
@@ -36,7 +34,6 @@ print('----gpus---',gpus)
 # session = InteractiveSession(config=config)             #solution for ERROR :Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR
 
 import matplotlib.pyplot as plt
-
 import wandb
 from BUFFER import Memory
 from UE4 import CarEnv
@@ -106,10 +103,6 @@ EPSILON_DECAY = 0.999
 
 RANDOM_ACTION = 1
 PLOT = 1
-# TENSORBOARD = 0
-# LOG_PATH = './log/'
-# LOG_PATH = 'D:\\pzs\\code\\ddpg\\DDPG_PER\\log'
-# LOG_PATH = '/D:/pzs/code/ddpg/DDPG_PER/log/'
 
 if TRAIN:
     wandb.init(project="DRL_TD3", entity="rickkkkk", reinit=True, name="Traffic_Continue_Camera128-256_V2Xvector_SpatateReward")
@@ -329,21 +322,15 @@ class Agent(object):
         return a_predict, self.noise.add_noise(a_predict, std=NOISE_EXPLORE_STD)
 
     def stack_samples(self, samples):
-        s_ts = tf.convert_to_tensor(np.array([e[0] for e in samples], dtype='float32'))
-        s_ts_v2x = tf.convert_to_tensor(np.array([e[1] for e in samples], dtype='float32'))
-        actions = tf.convert_to_tensor(np.array([e[2] for e in samples], dtype='float32'))
-        rewards = tf.convert_to_tensor(np.array([e[3] for e in samples], dtype='float32'))
-        s_ts1 = tf.convert_to_tensor(np.array([e[4] for e in samples], dtype='float32'))
-        s_ts1_v2x = tf.convert_to_tensor(np.array([e[5] for e in samples], dtype='float32'))
-        dones = tf.convert_to_tensor(np.array([e[6] for e in samples], dtype='float32'))
+        for e in samples:
+            s_ts = tf.convert_to_tensor(np.array([e[0]], dtype='float32'))
+            s_ts_v2x = tf.convert_to_tensor(np.array([e[1]], dtype='float32'))
+            actions = tf.convert_to_tensor(np.array([e[2]], dtype='float32'))
+            rewards = tf.convert_to_tensor(np.array([e[3]], dtype='float32'))
+            s_ts1 = tf.convert_to_tensor(np.array([e[4]], dtype='float32'))
+            s_ts1_v2x = tf.convert_to_tensor(np.array([e[5]], dtype='float32'))
+            dones = tf.convert_to_tensor(np.array([e[6]], dtype='float32'))
 
-        # s_ts = tf.convert_to_tensor(s_ts)
-        # actions = tf.convert_to_tensor(actions)
-        # rewards = tf.convert_to_tensor(rewards)
-        # s_ts1 = tf.convert_to_tensor(s_ts1)
-        # dones = tf.convert_to_tensor(dones)
-        # s_ts_v2x = tf.convert_to_tensor(s_ts_v2x)
-        # s_ts1_v2x = tf.convert_to_tensor(s_ts1_v2x)
         return s_ts, actions, rewards, s_ts1, dones, s_ts_v2x, s_ts1_v2x
 
     def update_err(self,q_value, q_target):

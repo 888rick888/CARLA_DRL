@@ -235,7 +235,7 @@ class CarEnv:
         # reward[1] = - abs(v2x_vector[3] - v2x_vector[0]*3) - v2x_vector[2]*0.5 - min((v2x_vector[1] + v2x_vector[4])/(v2x_vector[1] * v2x_vector[4] + 0.00001), 5)
         reward[1] = - abs(v2x_vector[3]/3 - v2x_vector[0])*2  + 1 - min((v2x_vector[1] + v2x_vector[4])/(v2x_vector[1] * v2x_vector[4] + 0.00001), 5)
         if a_accel < 0:
-            reward[1] -= abs(a_accel) / 2
+            reward[1] -= abs(a_accel)
         reward[1] *= REWARD_ACCEL
         # print("the reward of accel is ", -(v2x_vector[3] - v2x_vector[0]*3)*2, - v2x_vector[2]*0.5, - min((v2x_vector[1] + v2x_vector[4])/(v2x_vector[1] * v2x_vector[4] + 0.00001), 5))
 
@@ -279,7 +279,7 @@ class CarEnv:
         line_out = [6,7,8,9,10,15,19,20,22,23,54,60,61,66,69,71,75,82,83,88,100,113,125,131,132,133,143,147,148,151,152]
         line_in = [45,46,47,48,49,56,68,93,101,105,108,116,114,118,124,126,129,130,134,135,31,30,34,45]
         # return random.choice(line+line_to_turn)
-        return random.choice(line_out)
+        return random.choice(line_out+line_in)
         return random.choice(line_out+line_in)
         
     # def agent_action(self):
