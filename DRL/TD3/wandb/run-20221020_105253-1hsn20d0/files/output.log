@@ -1,0 +1,612 @@
+2022-10-20 10:52:59.964550: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-10-20 10:52:59.970167: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1733] Found device 0 with properties:
+pciBusID: 0000:18:00.0 name: NVIDIA GeForce RTX 3090 computeCapability: 8.6
+coreClock: 1.695GHz coreCount: 82 deviceMemorySize: 23.70GiB deviceMemoryBandwidth: 871.81GiB/s
+2022-10-20 10:52:59.971312: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1871] Adding visible gpu devices: 0
+2022-10-20 10:52:59.971436: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcudart.so.11.0
+2022-10-20 10:53:01.232907: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1258] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-10-20 10:53:01.232956: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1264]      0
+2022-10-20 10:53:01.232969: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1277] 0:   N
+2022-10-20 10:53:01.233867: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1418] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 20662 MB memory) -> physical GPU (device: 0, name: NVIDIA GeForce RTX 3090, pci bus id: 0000:18:00.0, compute capability: 8.6)
+Model: "model"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to
+==================================================================================================
+input_1 (InputLayer)            [(None, 256, 256, 3) 0
+__________________________________________________________________________________________________
+conv2d (Conv2D)                 (None, 256, 256, 8)  224         input_1[0][0]
+__________________________________________________________________________________________________
+max_pooling2d (MaxPooling2D)    (None, 128, 128, 8)  0           conv2d[0][0]
+__________________________________________________________________________________________________
+conv2d_1 (Conv2D)               (None, 128, 128, 16) 1168        max_pooling2d[0][0]
+__________________________________________________________________________________________________
+max_pooling2d_1 (MaxPooling2D)  (None, 64, 64, 16)   0           conv2d_1[0][0]
+__________________________________________________________________________________________________
+conv2d_2 (Conv2D)               (None, 64, 64, 64)   9280        max_pooling2d_1[0][0]
+__________________________________________________________________________________________________
+max_pooling2d_2 (MaxPooling2D)  (None, 32, 32, 64)   0           conv2d_2[0][0]
+__________________________________________________________________________________________________
+conv2d_3 (Conv2D)               (None, 32, 32, 32)   18464       max_pooling2d_2[0][0]
+__________________________________________________________________________________________________
+max_pooling2d_3 (MaxPooling2D)  (None, 16, 16, 32)   0           conv2d_3[0][0]
+__________________________________________________________________________________________________
+conv2d_4 (Conv2D)               (None, 16, 16, 8)    2312        max_pooling2d_3[0][0]
+__________________________________________________________________________________________________
+max_pooling2d_4 (MaxPooling2D)  (None, 8, 8, 8)      0           conv2d_4[0][0]
+__________________________________________________________________________________________________
+flatten (Flatten)               (None, 512)          0           max_pooling2d_4[0][0]
+__________________________________________________________________________________________________
+input_2 (InputLayer)            [(None, 2)]          0
+__________________________________________________________________________________________________
+input_3 (InputLayer)            [(None, 5)]          0
+__________________________________________________________________________________________________
+dense (Dense)                   (None, 128)          65664       flatten[0][0]
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (None, 32)           96          input_2[0][0]
+__________________________________________________________________________________________________
+dense_2 (Dense)                 (None, 64)           384         input_3[0][0]
+__________________________________________________________________________________________________
+concatenate (Concatenate)       (None, 224)          0           dense[0][0]
+                                                                 dense_1[0][0]
+                                                                 dense_2[0][0]
+__________________________________________________________________________________________________
+dense_3 (Dense)                 (None, 512)          115200      concatenate[0][0]
+__________________________________________________________________________________________________
+dense_4 (Dense)                 (None, 256)          131328      dense_3[0][0]
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 2)            514         dense_4[0][0]
+==================================================================================================
+Total params: 344,634
+Trainable params: 344,634
+Non-trainable params: 0
+__________________________________________________________________________________________________
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to
+==================================================================================================
+input_4 (InputLayer)            [(None, 256, 256, 3) 0
+__________________________________________________________________________________________________
+conv2d_5 (Conv2D)               (None, 256, 256, 8)  224         input_4[0][0]
+__________________________________________________________________________________________________
+max_pooling2d_5 (MaxPooling2D)  (None, 128, 128, 8)  0           conv2d_5[0][0]
+__________________________________________________________________________________________________
+conv2d_6 (Conv2D)               (None, 128, 128, 16) 1168        max_pooling2d_5[0][0]
+__________________________________________________________________________________________________
+max_pooling2d_6 (MaxPooling2D)  (None, 64, 64, 16)   0           conv2d_6[0][0]
+__________________________________________________________________________________________________
+conv2d_7 (Conv2D)               (None, 64, 64, 64)   9280        max_pooling2d_6[0][0]
+__________________________________________________________________________________________________
+max_pooling2d_7 (MaxPooling2D)  (None, 32, 32, 64)   0           conv2d_7[0][0]
+__________________________________________________________________________________________________
+conv2d_8 (Conv2D)               (None, 32, 32, 32)   18464       max_pooling2d_7[0][0]
+__________________________________________________________________________________________________
+max_pooling2d_8 (MaxPooling2D)  (None, 16, 16, 32)   0           conv2d_8[0][0]
+__________________________________________________________________________________________________
+conv2d_9 (Conv2D)               (None, 16, 16, 8)    2312        max_pooling2d_8[0][0]
+__________________________________________________________________________________________________
+max_pooling2d_9 (MaxPooling2D)  (None, 8, 8, 8)      0           conv2d_9[0][0]
+__________________________________________________________________________________________________
+flatten_1 (Flatten)             (None, 512)          0           max_pooling2d_9[0][0]
+__________________________________________________________________________________________________
+input_5 (InputLayer)            [(None, 2)]          0
+__________________________________________________________________________________________________
+input_6 (InputLayer)            [(None, 5)]          0
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 128)          65664       flatten_1[0][0]
+__________________________________________________________________________________________________
+dense_7 (Dense)                 (None, 32)           96          input_5[0][0]
+__________________________________________________________________________________________________
+dense_8 (Dense)                 (None, 64)           384         input_6[0][0]
+__________________________________________________________________________________________________
+concatenate_1 (Concatenate)     (None, 224)          0           dense_6[0][0]
+                                                                 dense_7[0][0]
+                                                                 dense_8[0][0]
+__________________________________________________________________________________________________
+dense_9 (Dense)                 (None, 512)          115200      concatenate_1[0][0]
+__________________________________________________________________________________________________
+dense_10 (Dense)                (None, 256)          131328      dense_9[0][0]
+__________________________________________________________________________________________________
+dense_11 (Dense)                (None, 2)            514         dense_10[0][0]
+==================================================================================================
+Total params: 344,634
+Trainable params: 344,634
+Non-trainable params: 0
+__________________________________________________________________________________________________
+------------------------------- load model ----------------------------------
+===  reloading world ......  ===
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+2022-10-20 10:53:06.846161: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcudnn.so.8
+2022-10-20 10:53:07.648324: I tensorflow/stream_executor/cuda/cuda_dnn.cc:359] Loaded cuDNN version 8101
+episode:0 step:1 predict_action:[[-0.01482605  0.9999968 ]] action:[[-0.09281163  1.        ]] reward:[ 1.34471126 -1.        ]
+episode:0 step:2 predict_action:[[-0.01447979  0.9999958 ]] action:[[-0.06511487  0.96987695]] reward:[ 1.35394351 -1.        ]
+episode:0 step:3 predict_action:[[-0.0059416   0.99999595]] action:[[-0.24132659  1.        ]] reward:[ 1.29520627 -1.        ]
+2022-10-20 10:53:08.642304: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcublas.so.11
+2022-10-20 10:53:09.358223: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcublasLt.so.11
+2022-10-20 10:53:09.396455: I tensorflow/stream_executor/cuda/cuda_blas.cc:1838] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+/home/Pan.zs/SSD/miniconda3/envs/carla/lib/python3.7/site-packages/numpy/core/_asarray.py:83: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return array(a, dtype, copy=False, order=order)
+2022-10-20 10:53:10.104588: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:176] None of the MLIR Optimization Passes are enabled (registered 2)
+2022-10-20 10:53:10.126854: I tensorflow/core/platform/profile_utils/cpu_utils.cc:114] CPU Frequency: 2100000000 Hz
+episode:0 step:4 predict_action:[[0.00231861 0.99999505]] action:[[0.03386211 1.        ]] reward:[ 1.3643611 -1.       ]
+episode:0 step:5 predict_action:[[-0.02110551  0.9999954 ]] action:[[-0.10388894  1.        ]] reward:[ 1.34101882 -1.        ]
+episode:0 step:6 predict_action:[[-0.01099006  0.9999951 ]] action:[[-0.04156492  1.        ]] reward:[ 1.3617935 -1.       ]
+episode:0 step:7 predict_action:[[0.00974847 0.99999535]] action:[[0.08123369 1.        ]] reward:[ 1.34857057 -1.        ]
+episode:0 step:8 predict_action:[[-0.0134362   0.99999505]] action:[[-0.02865141  0.98923326]] reward:[ 1.366098 -1.      ]
+episode:0 step:9 predict_action:[[-0.00963579  0.9999937 ]] action:[[0.18301807 1.        ]] reward:[ 1.31464245 -1.        ]
+episode:0 step:10 predict_action:[[-0.02703298  0.9999952 ]] action:[[0.06708683 1.        ]] reward:[ 1.35328619 -0.46666664]
+episode:0 step:11 predict_action:[[-0.03706727  0.9999205 ]] action:[[-0.11642502  1.        ]] reward:[1.34133039 0.        ]
+episode:0 step:12 predict_action:[[-0.04831646  0.9960357 ]] action:[[-0.05335196  0.9847198 ]] reward:[1.35451384 0.20000005]
+episode:0 step:13 predict_action:[[-0.02849116  0.9916943 ]] action:[[-0.12789197  0.9700481 ]] reward:[1.30917908 0.33333337]
+episode:0 step:14 predict_action:[[0.02910451 0.97660315]] action:[[-0.04387612  0.96273637]] reward:[1.29632128 0.39999998]
+episode:0 step:15 predict_action:[[-0.06039912  0.9853782 ]] action:[[-0.04105202  1.        ]] reward:[1.247366  0.5333333]
+episode:0 step:16 predict_action:[[-0.02941831  0.9380761 ]] action:[[0.14070202 1.        ]] reward:[1.15716689 0.60000002]
+episode:0 step:17 predict_action:[[-0.06291036  0.91606534]] action:[[0.11540516 0.9256901 ]] reward:[1.12795285 0.66666663]
+episode:0 step:18 predict_action:[[0.06637975 0.7261858 ]] action:[[0.06151234 0.72752684]] reward:[1.14436769 0.79999995]
+episode:0 step:19 predict_action:[[0.00299928 0.62277806]] action:[[0.07075883 0.69947076]] reward:[1.1519535  0.86666667]
+episode:0 step:20 predict_action:[[0.00173039 0.5820668 ]] action:[[0.03142835 0.6215032 ]] reward:[1.18957123 0.86666667]
+episode:0 step:21 predict_action:[[0.02501891 0.662985  ]] action:[[0.14584179 0.65847427]] reward:[1.18411525 0.93333328]
+episode:0 step:22 predict_action:[[-0.0224152   0.88948774]] action:[[0.00943558 1.        ]] reward:[1.28676186 1.        ]
+episode:0 step:23 predict_action:[[-0.09101695  0.77761215]] action:[[-0.20625502  0.7814315 ]] reward:[1.29035019 1.        ]
+episode:0 step:24 predict_action:[[-0.04980308  0.62335867]] action:[[0.00638402 0.69809216]] reward:[1.39712096 0.9333334 ]
+episode:0 step:25 predict_action:[[-0.02959319  0.6392842 ]] action:[[-0.11299287  0.7462679 ]] reward:[1.37313827 0.86666656]
+episode:0 step:26 predict_action:[[0.00143108 0.3402018 ]] action:[[0.21920626 0.27550614]] reward:[1.33571906 0.86666656]
+episode:0 step:27 predict_action:[[0.0310195 0.5806054]] action:[[0.05879712 0.6296284 ]] reward:[1.38398318 0.86666656]
+episode:0 step:28 predict_action:[[0.01572863 0.3397829 ]] action:[[0.04485106 0.2105663 ]] reward:[1.34776449 0.86666656]
+episode:0 step:29 predict_action:[[-0.03320406  0.3372591 ]] action:[[0.04331299 0.39201   ]] reward:[1.2951442  0.86666656]
+episode:0 step:30 predict_action:[[-0.12525976  0.34627166]] action:[[-0.12869328  0.41976368]] reward:[1.19692191 0.86666656]
+episode:0 step:31 predict_action:[[-0.04750237  0.02267056]] action:[[-0.08020215  0.12259194]] reward:[1.15837791 0.9333334 ]
+episode:0 step:32 predict_action:[[-0.17733628  0.4416498 ]] action:[[-0.13105443  0.5547879 ]] reward:[1.11916828 0.9333334 ]
+episode:0 step:33 predict_action:[[-0.0554483   0.03448192]] action:[[0.01084198 0.07663884]] reward:[1.17169636 1.        ]
+episode:0 step:34 predict_action:[[0.05891339 0.35728088]] action:[[0.16959058 0.4416716 ]] reward:[1.14172028 1.        ]
+episode:0 step:35 predict_action:[[ 0.04514372 -0.19673909]] action:[[ 0.10075797 -0.28932184]] reward:[1.15749539 0.64401144]
+episode:0 step:36 predict_action:[[-0.01780053  0.94007576]] action:[[-0.04940164  1.        ]] reward:[1.12974554 0.86666667]
+episode:0 step:37 predict_action:[[-0.05225119  0.17972893]] action:[[0.02378775 0.20293438]] reward:[1.09755764 0.86666667]
+episode:0 step:38 predict_action:[[-0.14929926  0.85497874]] action:[[-0.08679364  1.        ]] reward:[1.03752461 0.86666667]
+episode:0 step:39 predict_action:[[-0.130695   0.7712902]] action:[[-0.13489206  0.8315756 ]] reward:[0.99849116 0.86666667]
+episode:0 step:40 predict_action:[[-0.10606301  0.59776163]] action:[[-0.11673256  0.69155586]] reward:[1.02439972 0.93333328]
+episode:0 step:41 predict_action:[[-0.02311553  0.48055443]] action:[[-0.01279372  0.6058302 ]] reward:[1.11577683 1.        ]
+episode:0 step:42 predict_action:[[ 0.03109946 -0.45107383]] action:[[ 0.11071481 -0.46662474]] reward:[1.14714041 0.46670854]
+episode:0 step:43 predict_action:[[0.08200295 0.53298336]] action:[[0.11232775 0.6027824 ]] reward:[1.18643866 0.93333328]
+episode:0 step:44 predict_action:[[0.01334807 0.46862996]] action:[[0.00750214 0.38044026]] reward:[1.22774867 0.93333328]
+episode:0 step:45 predict_action:[[-0.01588924  0.30881187]] action:[[-0.04579005  0.41678262]] reward:[1.21234829 0.93333328]
+episode:0 step:46 predict_action:[[-0.06342491  0.6671531 ]] action:[[-0.05640531  0.6741185 ]] reward:[1.22025127 0.93333328]
+episode:0 step:47 predict_action:[[-0.05090013  0.6279441 ]] action:[[-0.2239542  0.7782941]] reward:[1.18742445 0.93333328]
+episode:0 step:48 predict_action:[[-0.06295955  0.03033709]] action:[[-0.2384673   0.23739874]] reward:[1.23648161 1.        ]
+episode:0 step:49 predict_action:[[0.00911263 0.34664896]] action:[[0.0890369 0.5377582]] reward:[1.34533024 0.93333328]
+episode:0 step:50 predict_action:[[-0.01210082 -0.2353984 ]] action:[[-0.02829634 -0.21905746]] reward:[1.24050763 0.71427582]
+episode:0 step:51 predict_action:[[ 0.03472862 -0.503732  ]] action:[[ 0.09655375 -0.51113284]] reward:[1.08666405 0.35553384]
+episode:0 step:52 predict_action:[[ 0.05758084 -0.27123228]] action:[[ 0.12785706 -0.26724333]] reward:[0.95839053 0.53275663]
+episode:0 step:53 predict_action:[[0.16233625 0.6676205 ]] action:[[0.17703575 0.93802077]] reward:[0.85375049 0.73333335]
+episode:0 step:54 predict_action:[[ 0.09917824 -0.12352484]] action:[[ 0.06582561 -0.07384588]] reward:[0.85279292 0.65948747]
+episode:0 step:55 predict_action:[[0.12387943 0.8778783 ]] action:[[0.1285549  0.94943994]] reward:[0.81935269 0.73333335]
+episode:0 step:56 predict_action:[[0.01091081 0.6202801 ]] action:[[0.06193338 0.70692563]] reward:[0.85829753 0.73333335]
+episode:0 step:57 predict_action:[[0.00277075 0.7607057 ]] action:[[0.08494055 0.84612226]] reward:[0.88949658 0.73333335]
+episode:0 step:58 predict_action:[[-0.0677501  0.8650734]] action:[[-0.08847833  0.7076704 ]] reward:[0.94743305 0.79999995]
+episode:0 step:59 predict_action:[[0.05746717 0.963301  ]] action:[[0.1261541 1.       ]] reward:[0.98150844 0.86666667]
+episode:0 step:60 predict_action:[[-0.00845214  0.90599066]] action:[[0.0366797  0.97184545]] reward:[1.06353746 0.93333328]
+episode:0 step:61 predict_action:[[0.02787703 0.7913004 ]] action:[[-0.01794113  0.8621799 ]] reward:[1.14570897 1.        ]
+episode:0 step:62 predict_action:[[0.02798904 0.4792303 ]] action:[[-0.02757213  0.45050848]] reward:[1.2116435 0.9333334]
+episode:0 step:63 predict_action:[[-0.04719683  0.7005603 ]] action:[[-0.09418167  0.8898018 ]] reward:[1.24869357 0.86666656]
+episode:0 step:64 predict_action:[[-0.0891766  -0.07015121]] action:[[0.02211655 0.0388764 ]] reward:[1.30984149 0.86666656]
+episode:0 step:65 predict_action:[[-0.0398612   0.27820104]] action:[[-0.04277843  0.44815546]] reward:[1.33473462 0.86666656]
+episode:0 step:66 predict_action:[[-0.09105252  0.4029346 ]] action:[[-0.14174949  0.58056104]] reward:[1.32705875 0.86666656]
+episode:0 step:67 predict_action:[[0.00223511 0.42476428]] action:[[-0.01856609  0.5031161 ]] reward:[1.36269969 0.86666656]
+episode:0 step:68 predict_action:[[0.0482161 0.5624807]] action:[[0.17327319 0.601252  ]] reward:[1.28674724 0.86666656]
+episode:0 step:69 predict_action:[[ 0.03309667 -0.33818465]] action:[[ 0.04635049 -0.17687066]] reward:[1.33051618 0.6897959 ]
+episode:0 step:70 predict_action:[[0.00974474 0.46271184]] action:[[0.05825951 0.6641527 ]] reward:[1.35372056 0.9333334 ]
+episode:0 step:71 predict_action:[[0.00191752 0.12058918]] action:[[0.17713702 0.11655304]] reward:[1.35134554 0.9333334 ]
+episode:0 step:72 predict_action:[[-0.07295784  0.1680827 ]] action:[[-0.03422853  0.24614894]] reward:[1.32893632 0.9333334 ]
+episode:0 step:73 predict_action:[[-0.12640992  0.325722  ]] action:[[-0.07998218  0.54050064]] reward:[1.21635551 1.        ]
+episode:0 step:74 predict_action:[[-0.14399856  0.23832804]] action:[[-0.05714133  0.17267346]] reward:[1.15023467 1.        ]
+episode:0 step:75 predict_action:[[-0.21400023  0.7624081 ]] action:[[-0.1409213   0.92660606]] reward:[1.06381686 0.93333328]
+episode:0 step:76 predict_action:[[-0.23958413  0.5899625 ]] action:[[-0.24370278  0.78183126]] reward:[1.00421248 0.93333328]
+episode:0 step:77 predict_action:[[-0.10048164  0.6710037 ]] action:[[-0.2995353  0.6712076]] reward:[1.02444519 0.93333328]
+episode:0 step:78 predict_action:[[0.02734328 0.7443067 ]] action:[[-0.1405108   0.72629124]] reward:[1.19098159 1.        ]
+episode:0 step:79 predict_action:[[0.14747919 0.3524714 ]] action:[[0.16628467 0.39893222]] reward:[1.32803975 1.        ]
+episode:0 step:80 predict_action:[[0.05673328 0.28581545]] action:[[0.01590262 0.2185801 ]] reward:[1.25877554 1.        ]
+episode:0 step:81 predict_action:[[ 0.11691381 -0.31066814]] action:[[ 0.12883571 -0.2307078 ]] reward:[1.08221944 0.70262548]
+episode:0 step:82 predict_action:[[0.03575354 0.4315775 ]] action:[[-0.09223664  0.58750916]] reward:[-10.  -2.]
+Training  | Episode: 1/10000  | Episode Reward: 66.9986  | Running Time: 21.8109
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:1 step:1 predict_action:[[-0.12369944  0.9999945 ]] action:[[-0.096298  1.      ]] reward:[ 1.38211423 -1.        ]
+episode:1 step:2 predict_action:[[-0.11841799  0.9999931 ]] action:[[0.05953223 1.        ]] reward:[ 1.39436949 -1.        ]
+episode:1 step:3 predict_action:[[-0.18353571  0.99998987]] action:[[-0.11898189  1.        ]] reward:[ 1.37455293 -1.        ]
+episode:1 step:4 predict_action:[[-0.18028949  0.99998975]] action:[[-0.20758669  1.        ]] reward:[ 1.345018 -1.      ]
+episode:1 step:5 predict_action:[[-0.16879709  0.999991  ]] action:[[-0.09664802  1.        ]] reward:[ 1.38199756 -1.        ]
+episode:1 step:6 predict_action:[[-0.14743891  0.99999183]] action:[[-0.05999736  1.        ]] reward:[ 1.39421444 -1.        ]
+episode:1 step:7 predict_action:[[-0.11615767  0.99999446]] action:[[-0.3067466  1.       ]] reward:[ 1.3119647 -1.       ]
+episode:1 step:8 predict_action:[[-0.04835564  0.99998295]] action:[[-0.20708038  1.        ]] reward:[ 1.34518677 -1.        ]
+episode:1 step:9 predict_action:[[-0.04016529  0.9999657 ]] action:[[-0.05650321  1.        ]] reward:[ 1.39508914 -0.33333331]
+episode:1 step:10 predict_action:[[-0.0364983  0.999289 ]] action:[[-0.03126133  0.9406462 ]] reward:[1.39671365 0.        ]
+episode:1 step:11 predict_action:[[-0.09009127  0.993705  ]] action:[[-0.14272946  1.        ]] reward:[1.34980332 0.20000005]
+episode:1 step:12 predict_action:[[-0.04921758  0.9959194 ]] action:[[0.13744725 0.94818234]] reward:[1.32116267 0.26666665]
+episode:1 step:13 predict_action:[[0.08696017 0.9582337 ]] action:[[0.07779951 0.9252338 ]] reward:[1.31755931 0.33333337]
+episode:1 step:14 predict_action:[[3.3645536e-04 9.7423184e-01]] action:[[0.036568  0.9450057]] reward:[1.33497643 0.4666667 ]
+episode:1 step:15 predict_action:[[-0.0800591  0.9533234]] action:[[-0.15993693  1.        ]] reward:[1.30089041 0.5333333 ]
+episode:1 step:16 predict_action:[[-0.03734737  0.9383463 ]] action:[[-0.02128199  0.8670857 ]] reward:[1.33193334 0.60000002]
+episode:1 step:17 predict_action:[[-0.05770109  0.965645  ]] action:[[0.05960495 1.        ]] reward:[1.28484231 0.73333335]
+episode:1 step:18 predict_action:[[0.12956172 0.5091867 ]] action:[[0.13851187 0.59018105]] reward:[1.24157382 0.79999995]
+episode:1 step:19 predict_action:[[0.00314313 0.37964782]] action:[[0.13358384 0.5507465 ]] reward:[1.25753584 0.86666667]
+episode:1 step:20 predict_action:[[0.0809048  0.34001237]] action:[[0.14399944 0.4898237 ]] reward:[1.2999659  0.86666667]
+episode:1 step:21 predict_action:[[-0.0327426   0.16787753]] action:[[0.04495713 0.11322153]] reward:[1.38555474 0.86666667]
+episode:1 step:22 predict_action:[[-0.07968717 -0.46893328]] action:[[-0.09301205 -0.24435596]] reward:[1.27454667 0.55564399]
+episode:1 step:23 predict_action:[[-0.11930448  0.8218789 ]] action:[[-0.05839388  0.9175812 ]] reward:[1.20375204 0.79999995]
+episode:1 step:24 predict_action:[[-0.18415315  0.13171263]] action:[[-0.15518774  0.25077873]] reward:[1.10784511 0.79999995]
+episode:1 step:25 predict_action:[[-0.10100549  0.8397347 ]] action:[[-0.12192002  0.83820856]] reward:[1.08546249 0.79999995]
+episode:1 step:26 predict_action:[[-0.0706415   0.73883545]] action:[[-0.01145779  0.75617456]] reward:[1.12416614 0.79999995]
+episode:1 step:27 predict_action:[[0.02310272 0.63680613]] action:[[0.11403684 0.6728063 ]] reward:[1.09703711 0.79999995]
+episode:1 step:28 predict_action:[[-0.0498719  0.7715186]] action:[[-0.13696496  0.91103864]] reward:[1.06883659 0.86666667]
+episode:1 step:29 predict_action:[[0.04981176 0.32795787]] action:[[0.05877569 0.3974604 ]] reward:[1.08113704 0.93333328]
+episode:1 step:30 predict_action:[[0.13164876 0.6430109 ]] action:[[0.03003522 0.61057323]] reward:[1.08852206 0.93333328]
+episode:1 step:31 predict_action:[[ 0.1515964  -0.02323022]] action:[[0.06202754 0.0219253 ]] reward:[1.05631628 0.93333328]
+episode:1 step:32 predict_action:[[-0.00531085  0.78788936]] action:[[0.05694819 0.8035252 ]] reward:[1.01834767 0.93333328]
+episode:1 step:33 predict_action:[[-0.14004886  0.6656884 ]] action:[[-0.11184422  0.7229806 ]] reward:[0.93910107 0.93333328]
+episode:1 step:34 predict_action:[[-0.08458135  0.5729997 ]] action:[[0.06522564 0.5943025 ]] reward:[0.90970759 0.93333328]
+episode:1 step:35 predict_action:[[-0.06984293  0.6735457 ]] action:[[-0.00357557  0.763006  ]] reward:[0.88771686 0.93333328]
+episode:1 step:36 predict_action:[[-0.07183703  0.19724467]] action:[[0.00349698 0.27694964]] reward:[0.83101103 1.        ]
+episode:1 step:37 predict_action:[[-0.1320444  0.6980612]] action:[[-0.14826182  0.7718219 ]] reward:[0.72488251 1.        ]
+episode:1 step:38 predict_action:[[-0.09830165  0.27861983]] action:[[-0.05580498  0.2856697 ]] reward:[0.73405411 1.        ]
+episode:1 step:39 predict_action:[[-0.12090828  0.7955277 ]] action:[[-0.00097229  0.9629561 ]] reward:[0.7671389 1.       ]
+episode:1 step:40 predict_action:[[0.01647842 0.11440528]] action:[[-0.00946709  0.300168  ]] reward:[0.7789838 1.       ]
+episode:1 step:41 predict_action:[[-0.07492673  0.38189712]] action:[[-0.16212592  0.5019474 ]] reward:[0.74508986 1.        ]
+episode:1 step:42 predict_action:[[-0.02901726  0.22433543]] action:[[-0.12318432  0.29215708]] reward:[0.81089508 1.        ]
+episode:1 step:43 predict_action:[[-0.00516834 -0.15046796]] action:[[-0.06251963  0.06522375]] reward:[0.93339514 1.        ]
+episode:1 step:44 predict_action:[[0.0556534  0.62418365]] action:[[-0.15374269  0.49818456]] reward:[1.01998733 0.93333328]
+episode:1 step:45 predict_action:[[ 0.05998973 -0.24360552]] action:[[ 0.18975678 -0.19033146]] reward:[1.14513492 0.67633522]
+episode:1 step:46 predict_action:[[0.16308376 0.8617208 ]] action:[[0.09527744 0.94355   ]] reward:[1.30199661 0.79999995]
+episode:1 step:47 predict_action:[[0.2012335 0.5175916]] action:[[0.11793289 0.46566525]] reward:[1.35296759 0.79999995]
+episode:1 step:48 predict_action:[[0.1416857  0.77785283]] action:[[0.2253465 0.6620325]] reward:[1.26430228 0.79999995]
+episode:1 step:49 predict_action:[[0.12725149 0.39168525]] action:[[0.10531853 0.5078858 ]] reward:[1.29072235 0.79999995]
+episode:1 step:50 predict_action:[[0.08316571 0.7299419 ]] action:[[0.1999736 0.863927 ]] reward:[1.27412957 0.86666667]
+episode:1 step:51 predict_action:[[0.06372683 0.7406151 ]] action:[[0.18826467 0.72738206]] reward:[1.32227902 0.86666667]
+episode:1 step:52 predict_action:[[-0.13100801  0.53433305]] action:[[-0.02329407  0.5185307 ]] reward:[1.33726135 0.93333328]
+episode:1 step:53 predict_action:[[-0.02838539 -0.13449976]] action:[[-0.09666427 -0.1796456 ]] reward:[1.20208196 0.68702108]
+episode:1 step:54 predict_action:[[-0.14927155  0.51041365]] action:[[-0.05285322  0.54936   ]] reward:[1.13154084 0.86666667]
+episode:1 step:55 predict_action:[[-0.10446431 -0.1366263 ]] action:[[-0.18734415 -0.19790769]] reward:[1.01790563 0.66875899]
+episode:1 step:56 predict_action:[[-0.15144713  0.8086863 ]] action:[[-0.19442888  0.84300786]] reward:[0.98310875 0.79999995]
+episode:1 step:57 predict_action:[[-0.03161195 -0.10988618]] action:[[-0.07348205  0.05189195]] reward:[1.05151116 0.79999995]
+episode:1 step:58 predict_action:[[-0.14250457  0.62136394]] action:[[-0.08983454  0.6589913 ]] reward:[1.09890704 0.79999995]
+episode:1 step:59 predict_action:[[-0.06212293  0.7071444 ]] action:[[-0.23344296  0.6365944 ]] reward:[1.11856627 0.79999995]
+episode:1 step:60 predict_action:[[0.0143098  0.94829774]] action:[[-0.13957597  0.9190946 ]] reward:[1.25004248 0.79999995]
+episode:1 step:61 predict_action:[[0.09218796 0.42309037]] action:[[-0.025397    0.54846895]] reward:[1.35938519 0.86666667]
+episode:1 step:62 predict_action:[[ 0.09992507 -0.16032344]] action:[[ 0.02577736 -0.14819331]] reward:[1.21488234 0.65180664]
+episode:1 step:63 predict_action:[[ 0.26246044 -0.4187862 ]] action:[[ 0.10943334 -0.24861266]] reward:[-10.  -2.]
+Training  | Episode: 2/10000  | Episode Reward: 46.7623  | Running Time: 48.3917
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:2 step:1 predict_action:[[0.09184048 0.99998176]] action:[[0.13402238 0.98387545]] reward:[ 1.26695705 -1.        ]
+episode:2 step:2 predict_action:[[0.08121406 0.99998015]] action:[[-0.14437902  1.        ]] reward:[ 1.26350483 -1.        ]
+episode:2 step:3 predict_action:[[0.06860244 0.9999794 ]] action:[[-0.0856967  0.9957861]] reward:[ 1.28306561 -1.        ]
+episode:2 step:4 predict_action:[[0.07857749 0.9999832 ]] action:[[0.16041535 1.        ]] reward:[ 1.25815939 -1.        ]
+episode:2 step:5 predict_action:[[0.09589379 0.99998593]] action:[[0.03767329 1.        ]] reward:[ 1.29907341 -1.        ]
+episode:2 step:6 predict_action:[[0.08910215 0.99998367]] action:[[0.1497986 1.       ]] reward:[ 1.26169831 -1.        ]
+episode:2 step:7 predict_action:[[0.06651615 0.9999842 ]] action:[[0.20346576 1.        ]] reward:[ 1.24380925 -1.        ]
+episode:2 step:8 predict_action:[[0.03898654 0.9999865 ]] action:[[0.00524059 1.        ]] reward:[ 1.30988431 -1.        ]
+episode:2 step:9 predict_action:[[0.06882796 0.9999854 ]] action:[[0.00234705 1.        ]] reward:[ 1.31084882 -1.        ]
+episode:2 step:10 predict_action:[[0.03664678 0.99998957]] action:[[0.05615636 1.        ]] reward:[ 1.29291239 -0.39999998]
+episode:2 step:11 predict_action:[[0.05585757 0.999779  ]] action:[[0.14001921 1.        ]] reward:[1.26826491 0.        ]
+episode:2 step:12 predict_action:[[0.02410517 0.9977069 ]] action:[[0.1250839 1.       ]] reward:[1.28855531 0.26666665]
+episode:2 step:13 predict_action:[[0.10355477 0.9936942 ]] action:[[0.27823508 1.        ]] reward:[1.25041713 0.33333337]
+episode:2 step:14 predict_action:[[-0.03367531  0.9607182 ]] action:[[0.0278043 1.       ]] reward:[1.29462484 0.39999998]
+episode:2 step:15 predict_action:[[-0.00945173  0.8939413 ]] action:[[0.24040921 0.9755809 ]] reward:[1.13164957 0.5333333 ]
+episode:2 step:16 predict_action:[[-0.2400315   0.78167415]] action:[[-0.03538099  0.814444  ]] reward:[-10.  -2.]
+Training  | Episode: 3/10000  | Episode Reward: -0.4216  | Running Time: 62.8260
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:3 step:1 predict_action:[[0.03844936 0.9999924 ]] action:[[0.03500089 0.98719263]] reward:[ 1.33192255 -1.        ]
+episode:3 step:2 predict_action:[[0.03687195 0.99999106]] action:[[0.12857978 0.9764577 ]] reward:[ 1.30072959 -1.        ]
+episode:3 step:3 predict_action:[[0.01010101 0.999994  ]] action:[[0.06375889 0.96965474]] reward:[ 1.32233655 -1.        ]
+episode:3 step:4 predict_action:[[0.00424245 0.9999911 ]] action:[[0.17781125 1.        ]] reward:[ 1.2843191 -1.       ]
+episode:3 step:5 predict_action:[[-0.01178647  0.99999547]] action:[[0.1359602 1.       ]] reward:[ 1.29826944 -1.        ]
+episode:3 step:6 predict_action:[[0.02776375 0.9999953 ]] action:[[0.01403559 1.        ]] reward:[ 1.33891098 -1.        ]
+episode:3 step:7 predict_action:[[-0.02698195  0.99998856]] action:[[0.06571987 1.        ]] reward:[ 1.32168289 -1.        ]
+episode:3 step:8 predict_action:[[-0.02249311  0.99998593]] action:[[-0.21428524  0.94047505]] reward:[ 1.2721611 -1.       ]
+episode:3 step:9 predict_action:[[0.01956299 0.9999844 ]] action:[[-0.1538109  1.       ]] reward:[ 1.29231642 -0.39999998]
+episode:3 step:10 predict_action:[[0.04447887 0.99976766]] action:[[0.13529359 1.        ]] reward:[1.29550374 0.        ]
+episode:3 step:11 predict_action:[[-0.06977597  0.9998043 ]] action:[[0.10373794 1.        ]] reward:[1.3042218  0.20000005]
+episode:3 step:12 predict_action:[[0.04153404 0.99953336]] action:[[-0.05555355  0.91318697]] reward:[1.32558655 0.33333337]
+episode:3 step:13 predict_action:[[0.05455851 0.9758579 ]] action:[[0.26806226 1.        ]] reward:[1.25490423 0.33333337]
+episode:3 step:14 predict_action:[[0.0456594 0.9946772]] action:[[-0.16557983  1.        ]] reward:[1.28436036 0.4666667 ]
+episode:3 step:15 predict_action:[[-0.02701085  0.993178  ]] action:[[-0.12061864  1.        ]] reward:[1.27580631 0.5333333 ]
+episode:3 step:16 predict_action:[[-0.08188343  0.99116695]] action:[[0.00291804 1.        ]] reward:[1.31548015 0.66666663]
+episode:3 step:17 predict_action:[[-0.02942123  0.9779501 ]] action:[[0.10017066 1.        ]] reward:[1.28456713 0.73333335]
+episode:3 step:18 predict_action:[[0.01133692 0.97477466]] action:[[0.10075253 1.        ]] reward:[1.26728884 0.86666667]
+episode:3 step:19 predict_action:[[8.959602e-04 9.420854e-01]] action:[[-0.03569005  0.954809  ]] reward:[1.24237725 0.93333328]
+episode:3 step:20 predict_action:[[-0.1337759  0.5435226]] action:[[-0.14509746  0.7367263 ]] reward:[1.15436784 1.        ]
+episode:3 step:21 predict_action:[[-0.08094948  0.7894879 ]] action:[[-0.23447332  0.7720385 ]] reward:[1.10550776 0.9333334 ]
+episode:3 step:22 predict_action:[[0.03462881 0.41347682]] action:[[-0.11627689  0.33848336]] reward:[1.18504862 0.86666656]
+episode:3 step:23 predict_action:[[0.03064711 0.3019663 ]] action:[[0.01651195 0.433087  ]] reward:[1.29066765 0.86666656]
+episode:3 step:24 predict_action:[[0.0341378 0.6544102]] action:[[0.05994877 0.76334   ]] reward:[1.31888041 0.86666656]
+episode:3 step:25 predict_action:[[ 0.04136444 -0.02764368]] action:[[0.101091   0.10955364]] reward:[1.28101001 0.86666656]
+episode:3 step:26 predict_action:[[-0.06838073  0.73680097]] action:[[-0.0433148  0.9348949]] reward:[1.2656339  0.86666656]
+episode:3 step:27 predict_action:[[0.00967408 0.44361457]] action:[[-0.00839957  0.5640489 ]] reward:[1.23515588 0.86666656]
+episode:3 step:28 predict_action:[[-0.09325972  0.74547344]] action:[[0.02181471 0.96702677]] reward:[1.17590177 0.86666656]
+episode:3 step:29 predict_action:[[0.050035   0.02803121]] action:[[0.08255915 0.23335996]] reward:[1.10413599 0.79999995]
+episode:3 step:30 predict_action:[[-0.0251815   0.57858735]] action:[[0.0706877 0.6586154]] reward:[1.07763908 0.79999995]
+episode:3 step:31 predict_action:[[-0.02354316  0.29943752]] action:[[0.10245722 0.22420365]] reward:[1.06302394 0.79999995]
+episode:3 step:32 predict_action:[[-0.04081796  0.4704419 ]] action:[[0.02786952 0.55246186]] reward:[1.11653205 0.79999995]
+episode:3 step:33 predict_action:[[0.03602999 0.53100294]] action:[[0.2927418  0.52596635]] reward:[1.07287476 0.79999995]
+episode:3 step:34 predict_action:[[-0.03607185  0.5345357 ]] action:[[-0.13568811  0.61805147]] reward:[1.20022786 0.86666656]
+episode:3 step:35 predict_action:[[-0.06701386  0.28397626]] action:[[-0.01344944  0.25721818]] reward:[1.32398714 0.86666656]
+episode:3 step:36 predict_action:[[-0.11827984  0.95399696]] action:[[-0.08727114  1.        ]] reward:[1.28871144 0.86666656]
+episode:3 step:37 predict_action:[[-0.21258795  0.77410257]] action:[[-0.31928974  0.96707326]] reward:[1.15007376 0.86666656]
+episode:3 step:38 predict_action:[[-0.21771818  0.94752234]] action:[[-0.14472169  1.        ]] reward:[1.18520174 0.79999995]
+episode:3 step:39 predict_action:[[-0.06810575  0.9840127 ]] action:[[-0.19857207  1.        ]] reward:[1.20234139 0.66666675]
+episode:3 step:40 predict_action:[[0.08722308 0.52228975]] action:[[0.1786319 0.6224801]] reward:[1.27196954 0.5999999 ]
+episode:3 step:41 predict_action:[[0.03590587 0.23573463]] action:[[-0.02340835  0.33087403]] reward:[1.29755775 0.5999999 ]
+episode:3 step:42 predict_action:[[ 0.03841764 -0.70243764]] action:[[-0.03845477 -0.7289469 ]] reward:[ 1.22312984 -0.12894702]
+episode:3 step:43 predict_action:[[0.01041525 0.1317324 ]] action:[[0.09470346 0.1934331 ]] reward:[1.06669129 0.66666675]
+episode:3 step:44 predict_action:[[-0.0062916  -0.18403365]] action:[[-0.0301473  0.1287372]] reward:[-10.  -2.]
+Training  | Episode: 4/10000  | Episode Reward: 28.3034  | Running Time: 96.1782
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:4 step:1 predict_action:[[-0.06722849  0.99999946]] action:[[0.01703459 0.99901426]] reward:[ 1.40848182 -1.        ]
+episode:4 step:2 predict_action:[[-0.06865842  0.9999994 ]] action:[[0.05056024 1.        ]] reward:[ 1.3973066 -1.       ]
+episode:4 step:3 predict_action:[[-0.06883451  0.99999946]] action:[[-0.14693049  1.        ]] reward:[ 1.36518319 -1.        ]
+episode:4 step:4 predict_action:[[-0.04825099  0.9999993 ]] action:[[0.12264752 0.9933353 ]] reward:[ 1.37327751 -1.        ]
+episode:4 step:5 predict_action:[[-0.04494655  0.9999996 ]] action:[[0.03856845 1.        ]] reward:[ 1.40130387 -1.        ]
+episode:4 step:6 predict_action:[[-0.06551034  0.9999992 ]] action:[[-0.12762186  1.        ]] reward:[ 1.3716194 -1.       ]
+episode:4 step:7 predict_action:[[-0.03013381  0.9999993 ]] action:[[-0.2096524  0.9770863]] reward:[ 1.34427589 -0.39999998]
+episode:4 step:8 predict_action:[[0.00759467 0.9999865 ]] action:[[0.06889325 0.9917398 ]] reward:[ 1.37601645 -0.06666666]
+episode:4 step:9 predict_action:[[-0.030254   0.9999579]] action:[[-0.01517432  0.952111  ]] reward:[1.37954501 0.20000005]
+episode:4 step:10 predict_action:[[-0.09345629  0.9998391 ]] action:[[-0.1169306  0.9587933]] reward:[1.33823447 0.26666665]
+episode:4 step:11 predict_action:[[-0.14266782  0.9998838 ]] action:[[-0.23032728  1.        ]] reward:[1.27053436 0.33333337]
+episode:4 step:12 predict_action:[[-0.03094696  0.9995077 ]] action:[[-0.39708444  1.        ]] reward:[1.14444163 0.39999998]
+episode:4 step:13 predict_action:[[0.0158997  0.99316025]] action:[[0.06311385 1.        ]] reward:[-10.  -2.]
+Training  | Episode: 5/10000  | Episode Reward: -0.5482  | Running Time: 108.2538
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:5 step:1 predict_action:[[-0.1805167  1.       ]] action:[[0.00891536 1.        ]] reward:[ 1.35648667 -1.        ]
+episode:5 step:2 predict_action:[[-0.18222181  1.        ]] action:[[-0.2322381  1.       ]] reward:[ 1.28204576 -1.        ]
+episode:5 step:3 predict_action:[[-0.2254662  0.9999995]] action:[[-0.47195798  0.96692985]] reward:[ 1.20213913 -1.        ]
+episode:5 step:4 predict_action:[[-0.23973519  0.9999992 ]] action:[[-0.15690708  0.9925187 ]] reward:[ 1.3071561 -1.       ]
+episode:5 step:5 predict_action:[[-0.30160442  0.9999996 ]] action:[[-0.20071864  1.        ]] reward:[ 1.29255224 -1.        ]
+episode:5 step:6 predict_action:[[-0.3119478   0.99999803]] action:[[-0.40338463  1.        ]] reward:[ 1.22499692 -1.        ]
+episode:5 step:7 predict_action:[[-0.23543066  0.9999979 ]] action:[[-0.16488588  1.        ]] reward:[ 1.3044965  -0.59999999]
+episode:5 step:8 predict_action:[[-0.09742533  0.99999344]] action:[[-0.12860456  1.        ]] reward:[ 1.32335577 -0.13333333]
+episode:5 step:9 predict_action:[[-0.14207509  0.99996996]] action:[[-0.01657943  1.        ]] reward:[1.38419077 0.13333333]
+episode:5 step:10 predict_action:[[-0.10610544  0.999427  ]] action:[[-0.03173905  1.        ]] reward:[1.4007025  0.26666665]
+episode:5 step:11 predict_action:[[-0.03969723  0.9995665 ]] action:[[-0.2175229  1.       ]] reward:[1.32017724 0.33333337]
+episode:5 step:12 predict_action:[[-0.01567981  0.99912727]] action:[[-0.1508353  1.       ]] reward:[1.29482281 0.39999998]
+episode:5 step:13 predict_action:[[0.14850986 0.97507554]] action:[[0.14523385 0.9392687 ]] reward:[1.2119461 0.4666667]
+episode:5 step:14 predict_action:[[-0.03207279  0.9850329 ]] action:[[-0.09666896  1.        ]] reward:[1.15106611 0.5333333 ]
+episode:5 step:15 predict_action:[[0.01934622 0.9651736 ]] action:[[-0.07921893  0.7938931 ]] reward:[1.08553526 0.66666663]
+episode:5 step:16 predict_action:[[0.08122202 0.89199066]] action:[[-6.492883e-04  1.000000e+00]] reward:[-10.  -2.]
+Training  | Episode: 6/10000  | Episode Reward: 1.6042  | Running Time: 122.6334
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:6 step:1 predict_action:[[-0.23196636  1.        ]] action:[[-0.06527844  1.        ]] reward:[ 1.39245027 -1.        ]
+episode:6 step:2 predict_action:[[-0.256879  1.      ]] action:[[-0.1582135  1.       ]] reward:[ 1.36147192 -1.        ]
+episode:6 step:3 predict_action:[[-0.24970661  1.        ]] action:[[-0.06879491  1.        ]] reward:[ 1.39127811 -1.        ]
+episode:6 step:4 predict_action:[[-0.26674172  1.        ]] action:[[-0.13413836  1.        ]] reward:[ 1.36949696 -1.        ]
+episode:6 step:5 predict_action:[[-0.2584389  1.       ]] action:[[-0.16199571  1.        ]] reward:[ 1.36021118 -1.        ]
+episode:6 step:6 predict_action:[[-0.24360043  1.        ]] action:[[0.10883379 1.        ]] reward:[ 1.37793182 -1.        ]
+episode:6 step:7 predict_action:[[-0.2517506  1.       ]] action:[[-0.19396241  1.        ]] reward:[ 1.34955561 -1.        ]
+episode:6 step:8 predict_action:[[-0.20349991  0.99999964]] action:[[-0.26948124  1.        ]] reward:[ 1.32438267 -1.        ]
+episode:6 step:9 predict_action:[[-0.2158472   0.99999964]] action:[[-0.13640654  1.        ]] reward:[ 1.3687409  -0.93333333]
+episode:6 step:10 predict_action:[[-0.21596855  0.9999995 ]] action:[[-0.14694014  1.        ]] reward:[ 1.36466476 -0.33333331]
+episode:6 step:11 predict_action:[[-0.12850492  0.9999928 ]] action:[[-0.14668563  1.        ]] reward:[1.34941862 0.06666672]
+episode:6 step:12 predict_action:[[-0.05091166  0.99968123]] action:[[0.01254496 0.99539524]] reward:[1.35727142 0.26666665]
+episode:6 step:13 predict_action:[[-0.05642394  0.99897474]] action:[[-0.08522392  1.        ]] reward:[1.30003983 0.33333337]
+episode:6 step:14 predict_action:[[-0.04588818  0.99556804]] action:[[0.02003954 0.99862736]] reward:[1.28001447 0.39999998]
+episode:6 step:15 predict_action:[[0.01517376 0.9979293 ]] action:[[0.1239784 1.       ]] reward:[1.20311574 0.5333333 ]
+episode:6 step:16 predict_action:[[-0.11792167  0.99888086]] action:[[-0.22811228  0.9265174 ]] reward:[1.15082474 0.60000002]
+episode:6 step:17 predict_action:[[-0.03352861  0.99601024]] action:[[-0.05602575  1.        ]] reward:[1.17744939 0.66666663]
+episode:6 step:18 predict_action:[[-0.0817631  0.9924794]] action:[[-0.29585642  1.        ]] reward:[1.02188805 0.79999995]
+episode:6 step:19 predict_action:[[0.04378476 0.976648  ]] action:[[0.1272888 1.       ]] reward:[-10.  -2.]
+Training  | Episode: 7/10000  | Episode Reward: 2.9501  | Running Time: 142.0206
+episode:7 step:1 predict_action:[[-0.23358808  0.9999989 ]] action:[[-0.13571736  0.89581996]] reward:[ 1.36892818 -1.        ]
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:7 step:2 predict_action:[[-0.22797646  0.99999845]] action:[[-0.06280942  1.        ]] reward:[ 1.39323083 -1.        ]
+episode:7 step:3 predict_action:[[-0.20848313  0.9999986 ]] action:[[-0.1098467  1.       ]] reward:[ 1.37755174 -1.        ]
+episode:7 step:4 predict_action:[[-0.18041551  0.9999984 ]] action:[[0.0094263 1.       ]] reward:[ 1.4110252 -1.       ]
+episode:7 step:5 predict_action:[[-0.18748058  0.9999985 ]] action:[[-0.04781325  1.        ]] reward:[ 1.39822955 -1.        ]
+episode:7 step:6 predict_action:[[-0.18733507  0.9999982 ]] action:[[-0.2636331  1.       ]] reward:[ 1.3262896 -1.       ]
+episode:7 step:7 predict_action:[[-0.15724395  0.99999696]] action:[[-0.11044094  1.        ]] reward:[ 1.37735365 -1.        ]
+episode:7 step:8 predict_action:[[-0.13317177  0.99999815]] action:[[-0.1358846  1.       ]] reward:[ 1.36887243 -0.93333333]
+episode:7 step:9 predict_action:[[-0.1554772   0.99999774]] action:[[-0.17786208  1.        ]] reward:[ 1.35440687 -0.33333331]
+episode:7 step:10 predict_action:[[-0.06839803  0.9999187 ]] action:[[0.01115963 1.        ]] reward:[1.39194665 0.06666672]
+episode:7 step:11 predict_action:[[0.00308793 0.9978741 ]] action:[[-0.1254948  1.       ]] reward:[1.33561796 0.26666665]
+episode:7 step:12 predict_action:[[-0.01020126  0.9976911 ]] action:[[-0.01251366  1.        ]] reward:[1.34177458 0.33333337]
+episode:7 step:13 predict_action:[[-0.01410786  0.9969287 ]] action:[[0.03331853 1.        ]] reward:[1.29692099 0.39999998]
+episode:7 step:14 predict_action:[[-0.01712638  0.9874959 ]] action:[[0.04386215 0.93317294]] reward:[1.26748154 0.4666667 ]
+episode:7 step:15 predict_action:[[0.00640295 0.96029234]] action:[[0.176257   0.91083455]] reward:[1.20644195 0.60000002]
+episode:7 step:16 predict_action:[[-0.0415852  0.9761627]] action:[[-0.14685072  1.        ]] reward:[1.22677281 0.66666663]
+episode:7 step:17 predict_action:[[0.00729934 0.98801535]] action:[[0.09015386 1.        ]] reward:[1.25539275 0.73333335]
+episode:7 step:18 predict_action:[[-0.05427558  0.989117  ]] action:[[-0.22182655  0.9988327 ]] reward:[1.20771267 0.86666667]
+episode:7 step:19 predict_action:[[0.02057457 0.96403766]] action:[[0.05480324 0.9710082 ]] reward:[1.25286982 0.93333328]
+episode:7 step:20 predict_action:[[0.02305557 0.90860635]] action:[[0.1542893 1.       ]] reward:[1.18294564 1.        ]
+episode:7 step:21 predict_action:[[0.01182621 0.3068474 ]] action:[[-0.09492104  0.40986758]] reward:[1.21145592 0.86666656]
+episode:7 step:22 predict_action:[[0.10015859 0.79413784]] action:[[0.04952802 0.83905387]] reward:[1.24067637 0.86666656]
+episode:7 step:23 predict_action:[[-0.02615436  0.87508255]] action:[[-0.1526095  1.       ]] reward:[1.21339163 0.79999995]
+episode:7 step:24 predict_action:[[-0.00378294  0.62519646]] action:[[-0.01397666  0.68500113]] reward:[1.25304527 0.73333335]
+episode:7 step:25 predict_action:[[0.01534286 0.35249367]] action:[[0.0692181  0.49689645]] reward:[1.20270251 0.66666675]
+episode:7 step:26 predict_action:[[-0.02027128  0.28487825]] action:[[-0.12382496  0.3860588 ]] reward:[1.17161598 0.66666675]
+episode:7 step:27 predict_action:[[0.05737367 0.1923785 ]] action:[[0.3069733 0.3462262]] reward:[1.08272205 0.73333335]
+episode:7 step:28 predict_action:[[-0.05535475 -0.2807337 ]] action:[[-0.07096528 -0.1769733 ]] reward:[1.13419274 0.55636005]
+episode:7 step:29 predict_action:[[ 0.04741246 -0.10958438]] action:[[ 0.0769729  -0.08442368]] reward:[1.14152848 0.71557628]
+episode:7 step:30 predict_action:[[-0.04732294  0.16817223]] action:[[0.05353802 0.24453282]] reward:[1.15917433 0.86666656]
+episode:7 step:31 predict_action:[[-0.0421892  0.7696976]] action:[[-0.06103654  0.8619636 ]] reward:[1.19024316 0.9333334 ]
+episode:7 step:32 predict_action:[[-0.08384404  0.30885208]] action:[[-0.06156009  0.40335828]] reward:[1.21315861 0.9333334 ]
+episode:7 step:33 predict_action:[[-0.07784258  0.31245628]] action:[[-0.17722085  0.46693647]] reward:[1.15410567 0.9333334 ]
+episode:7 step:34 predict_action:[[ 0.07051047 -0.7912521 ]] action:[[ 0.2198793  -0.75854933]] reward:[1.05371413 0.24145067]
+episode:7 step:35 predict_action:[[-0.08258267  0.58633834]] action:[[0.12377446 0.6371037 ]] reward:[0.9795805 1.       ]
+episode:7 step:36 predict_action:[[-0.05066394  0.01880717]] action:[[-0.11856493  0.04824971]] reward:[-10.  -2.]
+Training  | Episode: 8/10000  | Episode Reward: 20.6616  | Running Time: 170.3655
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:8 step:1 predict_action:[[-0.09396137  1.        ]] action:[[0.00555113 1.        ]] reward:[ 1.3658158 -1.       ]
+episode:8 step:2 predict_action:[[-0.10553398  1.        ]] action:[[0.06843146 1.        ]] reward:[ 1.34485569 -1.        ]
+episode:8 step:3 predict_action:[[-0.18769668  1.        ]] action:[[-0.05490725  1.        ]] reward:[ 1.34936376 -1.        ]
+episode:8 step:4 predict_action:[[-0.2408378  0.9999998]] action:[[-0.32701468  1.        ]] reward:[ 1.25866129 -1.        ]
+episode:8 step:5 predict_action:[[-0.2305778   0.99999964]] action:[[-0.25156265  1.        ]] reward:[ 1.28381196 -1.        ]
+episode:8 step:6 predict_action:[[-0.27282593  0.9999988 ]] action:[[-0.24220851  1.        ]] reward:[ 1.28693001 -1.        ]
+episode:8 step:7 predict_action:[[-0.24632855  0.9999996 ]] action:[[-0.40945262  1.        ]] reward:[ 1.23118197 -1.        ]
+episode:8 step:8 predict_action:[[-0.23636112  0.99999917]] action:[[-0.20777887  1.        ]] reward:[ 1.29840656 -1.        ]
+episode:8 step:9 predict_action:[[-0.23312092  0.9999994 ]] action:[[-0.33367866  0.97648656]] reward:[ 1.25643996 -0.93333333]
+episode:8 step:10 predict_action:[[-0.15064666  0.9999988 ]] action:[[-0.0895305  1.       ]] reward:[ 1.33920607 -0.33333331]
+episode:8 step:11 predict_action:[[-0.07926337  0.9999879 ]] action:[[-0.14272277  1.        ]] reward:[1.33756944 0.06666672]
+episode:8 step:12 predict_action:[[-0.07574362  0.9997716 ]] action:[[0.06766666 1.        ]] reward:[1.38775469 0.26666665]
+episode:8 step:13 predict_action:[[-0.08541982  0.99917126]] action:[[-0.04013154  1.        ]] reward:[1.37312615 0.33333337]
+episode:8 step:14 predict_action:[[-0.06378834  0.9974831 ]] action:[[-0.15539214  1.        ]] reward:[1.31331896 0.39999998]
+episode:8 step:15 predict_action:[[-0.01009082  0.9988554 ]] action:[[0.07133865 1.        ]] reward:[1.29119524 0.5333333 ]
+episode:8 step:16 predict_action:[[-0.06011283  0.99532646]] action:[[-0.17070165  0.94369483]] reward:[1.20424433 0.60000002]
+episode:8 step:17 predict_action:[[-0.03729259  0.98604655]] action:[[0.06475362 0.98535615]] reward:[1.17424241 0.66666663]
+episode:8 step:18 predict_action:[[-0.11286754  0.9857598 ]] action:[[-0.02944691  0.97714734]] reward:[1.1025185  0.79999995]
+episode:8 step:19 predict_action:[[-0.02710668  0.8887494 ]] action:[[-0.04546608  0.8780441 ]] reward:[1.01314028 0.86666667]
+episode:8 step:20 predict_action:[[-0.01310109  0.54818624]] action:[[-0.01893326  0.62827885]] reward:[-10.  -2.]
+Training  | Episode: 9/10000  | Episode Reward: 3.7392  | Running Time: 187.4182
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:9 step:1 predict_action:[[-0.11014529  0.99999934]] action:[[-0.0814537  1.       ]] reward:[ 1.32326377 -1.        ]
+episode:9 step:2 predict_action:[[-0.11859524  0.9999991 ]] action:[[-0.23145726  1.        ]] reward:[ 1.27326258 -1.        ]
+episode:9 step:3 predict_action:[[-0.14206252  0.9999988 ]] action:[[-0.18406688  1.        ]] reward:[ 1.28905938 -1.        ]
+episode:9 step:4 predict_action:[[-0.12316734  0.99999905]] action:[[0.06666432 0.97512865]] reward:[ 1.32819357 -1.        ]
+episode:9 step:5 predict_action:[[-0.12194721  0.9999993 ]] action:[[-0.09668562  1.        ]] reward:[ 1.31818646 -1.        ]
+episode:9 step:6 predict_action:[[-0.15096045  0.99999917]] action:[[-0.20199361  1.        ]] reward:[ 1.2830838  -0.93333333]
+episode:9 step:7 predict_action:[[-0.15669867  0.99999857]] action:[[-0.13306488  1.        ]] reward:[ 1.30695206 -0.33333331]
+episode:9 step:8 predict_action:[[-0.133747   0.9999614]] action:[[-0.02121849  1.        ]] reward:[1.35921282 0.        ]
+episode:9 step:9 predict_action:[[-0.06273526  0.9971538 ]] action:[[-0.13557065  1.        ]] reward:[1.33696926 0.20000005]
+episode:9 step:10 predict_action:[[-0.10168246  0.9994065 ]] action:[[-0.20501038  1.        ]] reward:[1.34449757 0.33333337]
+episode:9 step:11 predict_action:[[-0.02936899  0.99942285]] action:[[-0.03377412  1.        ]] reward:[1.33205273 0.39999998]
+episode:9 step:12 predict_action:[[-0.12402679  0.9980241 ]] action:[[-0.11905007  1.        ]] reward:[1.22261503 0.4666667 ]
+episode:9 step:13 predict_action:[[-0.0413156   0.87791884]] action:[[0.10562114 1.        ]] reward:[1.12759704 0.60000002]
+episode:9 step:14 predict_action:[[-0.07921136  0.9167774 ]] action:[[-0.2980663  0.8677551]] reward:[0.96892097 0.66666663]
+episode:9 step:15 predict_action:[[0.0587983 0.9456715]] action:[[0.10118601 0.9533927 ]] reward:[0.93602682 0.73333335]
+episode:9 step:16 predict_action:[[-0.14114477  0.8008676 ]] action:[[0.13769086 1.        ]] reward:[0.79443041 0.86666667]
+episode:9 step:17 predict_action:[[-0.09516991  0.981606  ]] action:[[0.05234846 1.        ]] reward:[0.76373462 0.93333328]
+episode:9 step:18 predict_action:[[-0.07390279  0.18193941]] action:[[-0.09373204  0.11600023]] reward:[0.7314056 1.       ]
+episode:9 step:19 predict_action:[[-0.04762176  0.72212017]] action:[[-0.00832573  0.8287332 ]] reward:[0.72332305 1.        ]
+episode:9 step:20 predict_action:[[-0.08328075  0.89855605]] action:[[-0.21049777  0.97232276]] reward:[0.61483414 0.9333334 ]
+episode:9 step:21 predict_action:[[-0.02244451  0.34960923]] action:[[-0.15443541  0.4130258 ]] reward:[-10.  -2.]
+Training  | Episode: 10/10000  | Episode Reward: 6.1221  | Running Time: 204.8956
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:10 step:1 predict_action:[[-0.08337439  0.99999934]] action:[[-0.05591147  1.        ]] reward:[ 1.3955745 -1.       ]
+episode:10 step:2 predict_action:[[-0.10848675  0.99999917]] action:[[-0.0681278  1.       ]] reward:[ 1.39150239 -1.        ]
+episode:10 step:3 predict_action:[[-0.07622065  0.9999989 ]] action:[[-0.07039614  1.        ]] reward:[ 1.39074627 -1.        ]
+episode:10 step:4 predict_action:[[-0.07928224  0.9999987 ]] action:[[0.02576501 1.        ]] reward:[ 1.40562332 -1.        ]
+episode:10 step:5 predict_action:[[-0.10630032  0.9999994 ]] action:[[-0.08079895  1.        ]] reward:[ 1.38727867 -1.        ]
+episode:10 step:6 predict_action:[[-0.18820098  0.99999905]] action:[[-0.02280274  1.        ]] reward:[ 1.40661074 -1.        ]
+episode:10 step:7 predict_action:[[-0.1519105  0.9999987]] action:[[-0.04078988  1.        ]] reward:[ 1.40061503 -1.        ]
+episode:10 step:8 predict_action:[[-0.14757717  0.99999833]] action:[[0.04938504 1.        ]] reward:[ 1.39774997 -1.        ]
+episode:10 step:9 predict_action:[[-0.12976697  0.9999984 ]] action:[[-0.22063756  1.        ]] reward:[ 1.3406658 -1.       ]
+episode:10 step:10 predict_action:[[-0.10327417  0.9999989 ]] action:[[-0.09083103  0.9653371 ]] reward:[ 1.38393274 -0.39999998]
+episode:10 step:11 predict_action:[[-0.07703828  0.99997807]] action:[[-0.0587965  1.       ]] reward:[1.3870264 0.       ]
+episode:10 step:12 predict_action:[[-0.15841205  0.99983096]] action:[[-0.07476512  1.        ]] reward:[1.36633977 0.26666665]
+episode:10 step:13 predict_action:[[-0.16173166  0.9985762 ]] action:[[-0.1736579  1.       ]] reward:[1.30643367 0.33333337]
+episode:10 step:14 predict_action:[[-0.05938681  0.9990077 ]] action:[[0.05368159 1.        ]] reward:[1.28973493 0.39999998]
+episode:10 step:15 predict_action:[[-0.06766226  0.99225587]] action:[[-0.07923171  1.        ]] reward:[1.22411175 0.5333333 ]
+episode:10 step:16 predict_action:[[0.03985734 0.9823884 ]] action:[[-0.02668469  1.        ]] reward:[1.18118006 0.60000002]
+episode:10 step:17 predict_action:[[-0.02717263  0.97688764]] action:[[-0.14878555  1.        ]] reward:[1.06207854 0.73333335]
+episode:10 step:18 predict_action:[[-0.0598165  0.976652 ]] action:[[-0.016473  1.      ]] reward:[-10.  -2.]
+Training  | Episode: 11/10000  | Episode Reward: 2.0919  | Running Time: 221.0687
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:11 step:1 predict_action:[[-0.24990562  0.99999964]] action:[[-0.2552838  1.       ]] reward:[ 1.32911896 -1.        ]
+episode:11 step:2 predict_action:[[-0.21304281  0.99999934]] action:[[-0.07597168  1.        ]] reward:[ 1.38888967 -1.        ]
+episode:11 step:3 predict_action:[[-0.21693197  0.9999997 ]] action:[[-0.06571876  1.        ]] reward:[ 1.39230731 -1.        ]
+episode:11 step:4 predict_action:[[-0.23850274  0.99999964]] action:[[-0.24920556  1.        ]] reward:[ 1.33114504 -1.        ]
+episode:11 step:5 predict_action:[[-0.20135897  0.9999996 ]] action:[[-0.126847  1.      ]] reward:[ 1.37193123 -1.        ]
+episode:11 step:6 predict_action:[[-0.18212757  0.99999964]] action:[[-0.20983244  1.        ]] reward:[ 1.34426941 -1.        ]
+episode:11 step:7 predict_action:[[-0.1954627   0.99999964]] action:[[-0.21398026  1.        ]] reward:[ 1.34288681 -1.        ]
+episode:11 step:8 predict_action:[[-0.17938323  0.9999997 ]] action:[[-0.2806427  1.       ]] reward:[ 1.320666   -0.39999998]
+episode:11 step:9 predict_action:[[-0.10488062  0.9999949 ]] action:[[-0.09515292  1.        ]] reward:[1.36185202 0.        ]
+episode:11 step:10 predict_action:[[-0.1613997   0.99997336]] action:[[-0.16648452  1.        ]] reward:[1.30033797 0.20000005]
+episode:11 step:11 predict_action:[[-0.03761876  0.9998588 ]] action:[[-0.1014014  0.998625 ]] reward:[1.26262481 0.33333337]
+episode:11 step:12 predict_action:[[0.04606153 0.9993819 ]] action:[[0.17788804 1.        ]] reward:[1.15774986 0.33333337]
+episode:11 step:13 predict_action:[[0.15324816 0.9991358 ]] action:[[0.22858405 0.94991136]] reward:[1.08043724 0.4666667 ]
+episode:11 step:14 predict_action:[[0.2088575 0.9992933]] action:[[0.16272834 0.94871354]] reward:[1.10430533 0.5333333 ]
+episode:11 step:15 predict_action:[[0.14913048 0.9975195 ]] action:[[0.35457957 1.        ]] reward:[1.07279336 0.60000002]
+episode:11 step:16 predict_action:[[0.0856783 0.999344 ]] action:[[0.04005031 1.        ]] reward:[1.25465698 0.73333335]
+episode:11 step:17 predict_action:[[-0.01657456  0.9962824 ]] action:[[0.04311871 1.        ]] reward:[1.35861569 0.79999995]
+episode:11 step:18 predict_action:[[-0.2159985  0.9824909]] action:[[-0.2757709  1.       ]] reward:[1.24736497 0.93333328]
+episode:11 step:19 predict_action:[[-0.2995945   0.97534996]] action:[[-0.28439155  1.        ]] reward:[1.15816987 1.        ]
+episode:11 step:20 predict_action:[[-0.23012878  0.7804646 ]] action:[[-0.1846033  1.       ]] reward:[1.1861994  0.86666656]
+episode:11 step:21 predict_action:[[-0.04589842  0.9171895 ]] action:[[-0.05641086  0.74949765]] reward:[1.27684828 0.79999995]
+episode:11 step:22 predict_action:[[-0.0069145   0.94228756]] action:[[0.04055479 1.        ]] reward:[1.34895166 0.73333335]
+episode:11 step:23 predict_action:[[0.0861914 0.7216115]] action:[[0.13833171 0.6547995 ]] reward:[1.35379089 0.66666675]
+episode:11 step:24 predict_action:[[0.03118042 0.8471902 ]] action:[[0.06383511 0.8171661 ]] reward:[1.34813172 0.5999999 ]
+episode:11 step:25 predict_action:[[0.01137055 0.67293733]] action:[[4.6463683e-04 7.6618659e-01]] reward:[1.36457801 0.5333333 ]
+episode:11 step:26 predict_action:[[-0.01896281  0.6777667 ]] action:[[-0.11104277  0.82002306]] reward:[1.32752621 0.4666667 ]
+episode:11 step:27 predict_action:[[-0.05789564 -0.5388441 ]] action:[[-0.05677954 -0.43580738]] reward:[1.32254283 0.03085932]
+episode:11 step:28 predict_action:[[-0.03669343  0.8732303 ]] action:[[-0.04972376  0.99178344]] reward:[1.27396124 0.4666667 ]
+episode:11 step:29 predict_action:[[-0.04780839 -0.58904797]] action:[[-0.03580694 -0.5292848 ]] reward:[ 1.20481793 -0.06261808]
+episode:11 step:30 predict_action:[[0.04923815 0.73444575]] action:[[-0.04281447  0.6756094 ]] reward:[1.10250914 0.4666667 ]
+episode:11 step:31 predict_action:[[ 0.08319149 -0.3035709 ]] action:[[ 0.26843727 -0.24461694]] reward:[0.89690416 0.28871636]
+episode:11 step:32 predict_action:[[0.04274019 0.39503172]] action:[[0.15465131 0.42784953]] reward:[0.81931811 0.5333333 ]
+episode:11 step:33 predict_action:[[ 0.08823965 -0.5453303 ]] action:[[ 0.09640663 -0.47487837]] reward:[0.80846585 0.12512153]
+episode:11 step:34 predict_action:[[-0.07153347  0.3499924 ]] action:[[-0.24715856  0.42224264]] reward:[0.77908668 0.66666675]
+episode:11 step:35 predict_action:[[-0.10385216  0.87590325]] action:[[0.03156891 1.        ]] reward:[0.86510184 0.66666675]
+episode:11 step:36 predict_action:[[-0.13242032  0.8818821 ]] action:[[-0.2857684  0.8634413]] reward:[0.75686243 0.66666675]
+episode:11 step:37 predict_action:[[-0.02862909  0.9627835 ]] action:[[0.0438875 1.       ]] reward:[-10.  -2.]
+Training  | Episode: 12/10000  | Episode Reward: 19.1322  | Running Time: 250.4188
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:12 step:1 predict_action:[[-0.09456435  1.        ]] action:[[-0.01199625  1.        ]] reward:[ 1.41015375 -1.        ]
+episode:12 step:2 predict_action:[[-0.10260238  1.        ]] action:[[-0.08521351  1.        ]] reward:[ 1.38574799 -1.        ]
+episode:12 step:3 predict_action:[[-0.11232001  0.9999998 ]] action:[[-0.1467603  1.       ]] reward:[ 1.3652324 -1.       ]
+episode:12 step:4 predict_action:[[-0.14384913  0.99999964]] action:[[-0.05766282  1.        ]] reward:[ 1.39493155 -1.        ]
+episode:12 step:5 predict_action:[[-0.12937836  1.        ]] action:[[-0.05554671  1.        ]] reward:[ 1.39563693 -1.        ]
+episode:12 step:6 predict_action:[[-0.12319712  0.9999998 ]] action:[[-0.06163397  1.        ]] reward:[ 1.39360784 -1.        ]
+episode:12 step:7 predict_action:[[-0.15423454  0.9999997 ]] action:[[-0.09801835  1.        ]] reward:[ 1.38147971 -0.93333333]
+episode:12 step:8 predict_action:[[-0.14507723  0.99999964]] action:[[-0.12266909  1.        ]] reward:[ 1.37285061 -0.33333331]
+episode:12 step:9 predict_action:[[-0.10325411  0.9999916 ]] action:[[-0.14257024  1.        ]] reward:[1.35356415 0.06666672]
+episode:12 step:10 predict_action:[[-0.04067999  0.99993926]] action:[[-0.03014314  1.        ]] reward:[1.35770723 0.26666665]
+episode:12 step:11 predict_action:[[0.03017834 0.9998308 ]] action:[[-0.08324964  1.        ]] reward:[1.30450912 0.33333337]
+episode:12 step:12 predict_action:[[0.07760166 0.99983466]] action:[[-0.05259515  1.        ]] reward:[1.26734403 0.39999998]
+episode:12 step:13 predict_action:[[0.05764332 0.9997503 ]] action:[[-0.07407799  1.        ]] reward:[1.20004987 0.5333333 ]
+episode:12 step:14 predict_action:[[0.01823301 0.9973045 ]] action:[[0.0138995 1.       ]] reward:[1.14169152 0.60000002]
+episode:12 step:15 predict_action:[[0.01172685 0.99228674]] action:[[0.02806499 1.        ]] reward:[1.05547848 0.73333335]
+episode:12 step:16 predict_action:[[0.00397691 0.9651948 ]] action:[[0.11674777 1.        ]] reward:[0.95096737 0.86666667]
+episode:12 step:17 predict_action:[[0.0159586  0.92000103]] action:[[-0.05488944  0.8603209 ]] reward:[0.92198507 0.93333328]
+episode:12 step:18 predict_action:[[0.09222128 0.95635396]] action:[[0.00998401 0.89634615]] reward:[0.88168333 1.        ]
+episode:12 step:19 predict_action:[[0.06455252 0.91018873]] action:[[0.22527589 1.        ]] reward:[0.73920073 0.9333334 ]
+episode:12 step:20 predict_action:[[0.07938956 0.705036  ]] action:[[0.14517704 0.7398661 ]] reward:[0.73636149 0.86666656]
+episode:12 step:21 predict_action:[[0.04990161 0.55302656]] action:[[0.05538783 0.7184579 ]] reward:[0.81207924 0.79999995]
+episode:12 step:22 predict_action:[[0.04767668 0.84409106]] action:[[0.06718511 0.9578441 ]] reward:[0.88128055 0.73333335]
+episode:12 step:23 predict_action:[[-0.05163609  0.05763853]] action:[[-0.08752804  0.13286164]] reward:[0.9702834  0.66666675]
+episode:12 step:24 predict_action:[[-0.04635816  0.8226889 ]] action:[[-0.07191247  0.8743243 ]] reward:[1.05931285 0.66666675]
+episode:12 step:25 predict_action:[[-0.05681113  0.60628223]] action:[[-0.12781446  0.6382449 ]] reward:[1.09136386 0.66666675]
+episode:12 step:26 predict_action:[[-0.00731656  0.24741414]] action:[[0.21528015 0.4115243 ]] reward:[1.07121788 0.66666675]
+episode:12 step:27 predict_action:[[-0.07788962  0.8600489 ]] action:[[0.10986722 0.99735624]] reward:[1.11537788 0.66666675]
+episode:12 step:28 predict_action:[[-0.01651119  0.78646463]] action:[[-0.07317897  0.7884726 ]] reward:[1.18776424 0.5999999 ]
+episode:12 step:29 predict_action:[[0.00857441 0.48022392]] action:[[-0.05051812  0.6571593 ]] reward:[1.2508285 0.5999999]
+episode:12 step:30 predict_action:[[0.03003369 0.7300918 ]] action:[[0.00629667 0.7500364 ]] reward:[1.29912803 0.5333333 ]
+episode:12 step:31 predict_action:[[-0.00696433 -0.0805673 ]] action:[[0.00323276 0.05171122]] reward:[1.33190829 0.5333333 ]
+episode:12 step:32 predict_action:[[-0.00949544 -0.09921234]] action:[[ 0.06226358 -0.08961624]] reward:[1.34493937 0.51038367]
+episode:12 step:33 predict_action:[[-0.10344955  0.6784331 ]] action:[[-0.03498644  0.8755301 ]] reward:[1.39765942 0.5999999 ]
+episode:12 step:34 predict_action:[[-0.05332043 -0.06734265]] action:[[ 0.0145769  -0.04182047]] reward:[1.36945443 0.62484627]
+episode:12 step:35 predict_action:[[-0.11513731  0.7404344 ]] action:[[-0.08583803  0.89265454]] reward:[1.30217245 0.66666675]
+episode:12 step:36 predict_action:[[-0.08729565  0.82218605]] action:[[-0.05938522  0.80149275]] reward:[1.28304738 0.66666675]
+episode:12 step:37 predict_action:[[-0.04676749  0.82724226]] action:[[-0.04742682  0.91104096]] reward:[1.28229276 0.66666675]
+episode:12 step:38 predict_action:[[-0.01005588  0.14997303]] action:[[-0.11635557  0.13931268]] reward:[1.27111313 0.66666675]
+episode:12 step:39 predict_action:[[0.0410106  0.81411743]] action:[[0.05320863 0.9156866 ]] reward:[1.33490357 0.66666675]
+episode:12 step:40 predict_action:[[0.03088712 0.866151  ]] action:[[-0.00092531  0.7681237 ]] reward:[1.40015611 0.5999999 ]
+episode:12 step:41 predict_action:[[0.07558125 0.7069769 ]] action:[[0.12780103 0.77012414]] reward:[1.33941295 0.5999999 ]
+episode:12 step:42 predict_action:[[0.05228954 0.94566053]] action:[[0.21226671 0.96023285]] reward:[1.29008845 0.5333333 ]
+episode:12 step:43 predict_action:[[0.00761917 0.96006763]] action:[[-0.10705162  0.9770185 ]] reward:[1.36124722 0.4666667 ]
+episode:12 step:44 predict_action:[[-0.10432384 -0.49951494]] action:[[-0.23484835 -0.3251625 ]] reward:[1.28992269 0.1415042 ]
+episode:12 step:45 predict_action:[[-0.06006439  0.44067195]] action:[[-0.17529435  0.57206917]] reward:[1.30506313 0.4666667 ]
+episode:12 step:46 predict_action:[[-0.07061495 -0.2305037 ]] action:[[ 0.03493913 -0.15958844]] reward:[1.39729473 0.37374486]
+episode:12 step:47 predict_action:[[0.0439765  0.77237797]] action:[[0.05620197 0.8492688 ]] reward:[1.3100007 0.5333333]
+episode:12 step:48 predict_action:[[0.11490487 0.4246674 ]] action:[[0.08911072 0.62572134]] reward:[1.23129988 0.5333333 ]
+episode:12 step:49 predict_action:[[0.0785282  0.12626366]] action:[[0.15076473 0.30733973]] reward:[1.16426184 0.5333333 ]
+episode:12 step:50 predict_action:[[0.03360678 0.74856776]] action:[[0.03369388 0.9178019 ]] reward:[1.20270873 0.5333333 ]
+episode:12 step:51 predict_action:[[0.1578572 0.622728 ]] action:[[0.24218649 0.8510471 ]] reward:[1.16123749 0.5333333 ]
+episode:12 step:52 predict_action:[[ 0.05256307 -0.30263415]] action:[[ 0.07995035 -0.14739226]] reward:[1.28386535 0.38594104]
+episode:12 step:53 predict_action:[[-0.03573764  0.11118113]] action:[[0.1394411  0.23994714]] reward:[1.34198898 0.5333333 ]
+episode:12 step:54 predict_action:[[-0.14905976  0.02129603]] action:[[-0.06425939  0.1079613 ]] reward:[-10.  -2.]
+Training  | Episode: 13/10000  | Episode Reward: 35.9906  | Running Time: 290.0815
+WARNING: synchronous mode enabled with variable delta seconds. It is highly recommended to set 'fixed_delta_seconds' when running on synchronous mode.
+episode:13 step:1 predict_action:[[-0.13838488  0.999996  ]] action:[[-0.22139055  1.        ]] reward:[ 1.26979266 -1.        ]
+episode:13 step:2 predict_action:[[-0.12765221  0.9999924 ]] action:[[0.0433356 1.       ]] reward:[ 1.32914431 -1.        ]
+episode:13 step:3 predict_action:[[-0.14545366  0.99999416]] action:[[-0.19603404  1.        ]] reward:[ 1.27824483 -1.        ]
+episode:13 step:4 predict_action:[[-0.15700409  0.9999904 ]] action:[[-0.04937289  1.        ]] reward:[ 1.32713188 -1.        ]
+episode:13 step:5 predict_action:[[-0.15245695  0.9999949 ]] action:[[-0.19151366  1.        ]] reward:[ 1.27975163 -1.        ]
+episode:13 step:6 predict_action:[[-0.15253584  0.9999925 ]] action:[[-0.06960353  1.        ]] reward:[ 1.32038834 -1.        ]
+episode:13 step:7 predict_action:[[-0.17584443  0.99999464]] action:[[-0.19648263  1.        ]] reward:[ 1.2780953 -1.       ]
+episode:13 step:8 predict_action:[[-0.16923249  0.99999106]] action:[[-0.16686928  0.98031014]] reward:[ 1.28796642 -1.        ]
+episode:13 step:9 predict_action:[[-0.16343275  0.99999064]] action:[[-0.13037474  1.        ]] reward:[ 1.30012848 -0.39999998]
+============ S T O P ============
+Traceback (most recent call last):
+  File "td3.py", line 463, in <module>
+    raise ValueError ('stop from keyboard')
+ValueError: stop from keyboard
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "td3.py", line 466, in <module>
+    raise ValueError ('stop from keyboard')
+ValueError: stop from keyboard
+stop from keyboard

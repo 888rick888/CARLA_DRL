@@ -125,7 +125,7 @@ class CarEnv:
         self.sensor.listen(lambda data: self.process_img(data))
 
         self.vehicle.apply_control(carla.VehicleControl(throttle=0.8,brake=0.0))
-        time.sleep(1)
+        time.sleep(3)
 
         colsensor = self.blueprint_library.find("sensor.other.collision")
         self.colsensor = self.world.spawn_actor(colsensor,transform_sensor,attach_to=self.vehicle)
@@ -233,9 +233,9 @@ class CarEnv:
 
         v2x_vector = self.get_V2X()
         # reward[1] = - abs(v2x_vector[3] - v2x_vector[0]*3) - v2x_vector[2]*0.5 - min((v2x_vector[1] + v2x_vector[4])/(v2x_vector[1] * v2x_vector[4] + 0.00001), 5)
-        reward[1] = - abs(v2x_vector[3]/3 - v2x_vector[0])*2  + 1
+        reward[1] = - abs(v2x_vector[3]/3 - v2x_vector[0])*2  + 1 - min((v2x_vector[1] + v2x_vector[4])/(v2x_vector[1] * v2x_vector[4] + 0.00001), 5)
         if a_accel < 0:
-            reward[1] -= abs(a_accel)
+            reward[1] -= abs(a_accel) / 2
         reward[1] *= REWARD_ACCEL
         # print("the reward of accel is ", -(v2x_vector[3] - v2x_vector[0]*3)*2, - v2x_vector[2]*0.5, - min((v2x_vector[1] + v2x_vector[4])/(v2x_vector[1] * v2x_vector[4] + 0.00001), 5))
 
@@ -247,14 +247,14 @@ class CarEnv:
             done = True
             self.lane_text = ["'s'"]
             reward[0] = -10
-            reward[1] = -2
+            reward[1] = -3
         elif distance > 1:
             done = True
             reward[0] = -10
-            reward[1] = -2
+            reward[1] = -3
         elif v2x_vector[2] > 1:
             done = True
-            reward[0] = -2
+            reward[0] = -3
             reward[1] = -10
         else:
             done = False
@@ -342,8 +342,9 @@ class CarEnv:
 
             if target_light.state == carla.TrafficLightState.Green :
                 continue
-            if self.calc_distance(light_waypoint.transform, front_transform, max_vehicle_distance) < max_vehicle_distance:
-                vector[2] = 10
+            distance_light = self.calc_distance(light_waypoint.transform, front_transform, max_vehicle_distance)
+            if distance_light < max_vehicle_distance:
+                vector[2] = distance_light / 8
 
         for target_vehicle in vehicle_list:
             target_transform = target_vehicle.get_transform()

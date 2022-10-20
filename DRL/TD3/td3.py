@@ -112,7 +112,7 @@ PLOT = 1
 # LOG_PATH = '/D:/pzs/code/ddpg/DDPG_PER/log/'
 
 if TRAIN:
-    wandb.init(project="DRL_TD3", entity="rickkkkk", reinit=True, name="Continue_Camera128-256_V2Xvector_SpatateReward")
+    wandb.init(project="DRL_TD3", entity="rickkkkk", reinit=True, name="Traffic_Continue_Camera128-256_V2Xvector_SpatateReward")
     wandb.config.hyper_patamter = {
         "State_size": STATE_SIZE,
         "learning_rate_Actor": LR_A,

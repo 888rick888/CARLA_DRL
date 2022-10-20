@@ -1,0 +1,24 @@
+{
+    "os": "Linux-5.4.0-89-generic-x86_64-with-debian-bullseye-sid",
+    "python": "3.7.11",
+    "heartbeatAt": "2022-10-18T14:01:29.131570",
+    "startedAt": "2022-10-18T14:01:25.705261",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "gpu_count": 4,
+    "cpu_count": 64,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "ppo.py",
+    "codePath": "DRL/PPO/ppo.py",
+    "git": {
+        "remote": "git@github.com:888rick888/CARLA_DRL.git",
+        "commit": "71090c4b87cacc78e813f318565a355dfcf5fdc7"
+    },
+    "email": null,
+    "root": "/home/amax/NVME_SSD/Pan.zs/CARLA_DRL",
+    "host": "amax",
+    "username": "Pan.zs",
+    "executable": "/home/Pan.zs/SSD/miniconda3/envs/carla/bin/python"
+}
