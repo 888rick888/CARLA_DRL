@@ -210,8 +210,10 @@ class Agent(object):
         return state_input_c, action_input, model_c
  
     def remember(self,s_t,action,reward,s_t1,done):
-        s_t_state, s_t_v2x = s_t[0], s_t[1]
-        s_t_state1, s_t_v2x1 = s_t1[0], s_t1[1]
+        s_t_state, s_t_v2x = s_t[0].astype(np.float32), s_t[1].astype(np.float32)
+        s_t_state1, s_t_v2x1 = s_t1[0].astype(np.float32), s_t1[1].astype(np.float32)
+        reward, action = reward.astype(np.float32), action.astype(np.float32)
+        done = np.array(done, dtype='float32')
         experiences = (s_t_state, s_t_v2x, action, reward, s_t_state1, s_t_v2x1, done)
         self.buff.store(experiences)
  
@@ -225,7 +227,8 @@ class Agent(object):
         self.samples = samples
         self.s_ts, self.actions, self.rewards, self.s_ts1, self.dones, self.s_ts_v2x, self.s_ts1_v2x = self.stack_samples(self.samples)
         target_actions = self.target_actor_model([self.s_ts1, self.actions, self.s_ts1_v2x], training=True)
-        target_actions = tf.convert_to_tensor(self.noise.add_noise(target_actions, std=NOISE_POLICY_STD))
+        target_actions = self.noise.add_noise(target_actions, std=NOISE_POLICY_STD)
+        # target_actions = tf.convert_to_tensor(self.noise.add_noise(target_actions, std=NOISE_POLICY_STD))
         q_value, q_target = self.train_net(self.s_ts, self.actions, self.rewards, self.s_ts1, self.dones, target_actions, self.s_ts_v2x, self.s_ts1_v2x)
         if self.train_count >= TRAIN_ACTOR_EACH_C:
             self.train_count = 0
@@ -322,14 +325,33 @@ class Agent(object):
         return a_predict, self.noise.add_noise(a_predict, std=NOISE_EXPLORE_STD)
 
     def stack_samples(self, samples):
-        for e in samples:
-            s_ts = tf.convert_to_tensor(np.array([e[0]], dtype='float32'))
-            s_ts_v2x = tf.convert_to_tensor(np.array([e[1]], dtype='float32'))
-            actions = tf.convert_to_tensor(np.array([e[2]], dtype='float32'))
-            rewards = tf.convert_to_tensor(np.array([e[3]], dtype='float32'))
-            s_ts1 = tf.convert_to_tensor(np.array([e[4]], dtype='float32'))
-            s_ts1_v2x = tf.convert_to_tensor(np.array([e[5]], dtype='float32'))
-            dones = tf.convert_to_tensor(np.array([e[6]], dtype='float32'))
+        # s_ts, s_ts_v2x, actions, rewards, s_ts1, s_ts1_v2x, dones = [], [], [], [], [], [], []
+        # # # print(np.shape(samples[0]), np.shape(samples))
+        # # s_ts, s_ts_v2x, actions, rewards, s_ts1, s_ts1_v2x, dones = np.empty(), np.zeros(), np.zeros(), np.zeros(), np.zeros(), np.zeros(), np.zeros()
+        # for e in samples:
+        #     s_ts.append(e[0])
+        #     s_ts_v2x.append(e[1])
+        #     actions.append(e[2])
+        #     rewards.append(e[3])
+        #     s_ts1.append(e[4])
+        #     s_ts1_v2x.append(e[5])
+        #     dones.append(e[6])
+
+        # s_ts = tf.convert_to_tensor(np.array(s_ts, dtype='float32'))
+        # s_ts_v2x = tf.convert_to_tensor(np.array(s_ts_v2x, dtype='float32'))
+        # actions = tf.convert_to_tensor(np.array(actions, dtype='float32'))
+        # rewards = tf.convert_to_tensor(np.array(rewards, dtype='float32'))
+        # s_ts1 = tf.convert_to_tensor(np.array(s_ts1, dtype='float32'))
+        # s_ts1_v2x = tf.convert_to_tensor(np.array(s_ts1_v2x, dtype='float32'))
+        # dones = tf.convert_to_tensor(np.array(dones, dtype='float32'))
+
+        s_ts = tf.convert_to_tensor(np.array([e[0] for e in samples], dtype='float32'))
+        s_ts_v2x = tf.convert_to_tensor(np.array([e[1] for e in samples], dtype='float32'))
+        actions = tf.convert_to_tensor(np.array([e[2] for e in samples], dtype='float32'))
+        rewards = tf.convert_to_tensor(np.array([e[3] for e in samples], dtype='float32'))
+        s_ts1 = tf.convert_to_tensor(np.array([e[4] for e in samples], dtype='float32'))
+        s_ts1_v2x = tf.convert_to_tensor(np.array([e[5] for e in samples], dtype='float32'))
+        dones = tf.convert_to_tensor(np.array([e[6] for e in samples], dtype='float32'))
 
         return s_ts, actions, rewards, s_ts1, dones, s_ts_v2x, s_ts1_v2x
 
@@ -404,7 +426,7 @@ if __name__ == "__main__":
             step = 0
             s_t = obs
             for t in range(5000):
-                # a_time = time.time()
+                a_time = time.time()
 
                 step += 1
                 # s_t = np.reshape(s_t, (1,STATE_SIZE,STATE_SIZE,3))
@@ -413,27 +435,27 @@ if __name__ == "__main__":
                 s_t_camera = np.reshape(s_t[0], (1, STATE_SIZE, STATE_SIZE, 3))
                 s_t_v2x = np.reshape(s_t[1], (1, V2X_DIM))
 
-                # control = env.agent_action()
                 get_action = np.reshape([env.vehicle.get_control().steer, env.vehicle.get_control().throttle], (1,ACTION_DIM))
+                # a1 = time.time()
                 a_predict, action = agent.act(s_t_camera, s_t_v2x, get_action=get_action)
+                # print("====== the time get_action is ", time.time() - a1)
                 action = np.reshape(action, (1,ACTION_DIM))
                 obs_, reward, done, _ = env.step(action[0])
 
-                # s_t = np.reshape(s_t, (STATE_SIZE,STATE_SIZE,3))
                 s_t1 = np.reshape(obs_, np.shape(obs_))
-                # reward = np.reshape(reward, np.shape(reward))
-                # done = np.reshape(done, np.shape(reward))
                 dones = np.reshape(done, 1)
                 dones = np.concatenate((dones, dones))
                 
                 agent.remember(s_t, action[0], reward, s_t1, dones)
                 epoch_reward += (reward[0] + reward[1]) * 0.5
     
-                print("episode:{} step:{} predict_action:{} action:{} reward:{}".format(e,step,a_predict,action,reward))
+                print("episode:{} step:{} predict_action:{} action:{} reward:{} time_EachStep:{}".format(e,step,a_predict,action,reward, time.time()-a_time))
             
                 s_t = s_t1
 
+                # a4 = time.time()
                 agent.train()
+                # print("====== the time 4 Train is ", time.time() - a4)
                 # a_time = time.time()
                 # print('==========================================time==================================', float(time.time()-a_time))
 

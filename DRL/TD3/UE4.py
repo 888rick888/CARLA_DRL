@@ -61,7 +61,7 @@ class CarEnv:
 
         self.client.set_timeout(30.0)
         # self.world = self.client.reload_world() # 重启世界
-        print("===  reloading world ......  ===")
+        # print("===  reloading world ......  ===")
 
         # self.world = self.client.load_world('Town04')
         self.world = self.client.get_world()
@@ -125,7 +125,7 @@ class CarEnv:
         self.sensor.listen(lambda data: self.process_img(data))
 
         self.vehicle.apply_control(carla.VehicleControl(throttle=0.8,brake=0.0))
-        time.sleep(2)
+        time.sleep(1)
 
         colsensor = self.blueprint_library.find("sensor.other.collision")
         self.colsensor = self.world.spawn_actor(colsensor,transform_sensor,attach_to=self.vehicle)
@@ -228,7 +228,7 @@ class CarEnv:
         # self.world.wait_for_tick()
 
         reward[0] = REWARD_ANGLE * reward_a - REWARD_DISTANCE * reward_d
-        reward[0] -= abs(a_steer) / 2
+        reward[0] -= abs(a_steer)
 
 
         v2x_vector = self.get_V2X()
