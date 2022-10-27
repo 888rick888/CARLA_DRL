@@ -125,7 +125,7 @@ class CarEnv:
         self.sensor.listen(lambda data: self.process_img(data))
 
         self.vehicle.apply_control(carla.VehicleControl(throttle=0.8,brake=0.0))
-        time.sleep(1)
+        time.sleep(2)
 
         colsensor = self.blueprint_library.find("sensor.other.collision")
         self.colsensor = self.world.spawn_actor(colsensor,transform_sensor,attach_to=self.vehicle)
@@ -228,8 +228,7 @@ class CarEnv:
         # self.world.wait_for_tick()
 
         reward[0] = REWARD_ANGLE * reward_a - REWARD_DISTANCE * reward_d
-        reward[0] -= abs(a_steer)
-
+        reward[0] -= abs(a_steer) / 2
 
         v2x_vector = self.get_V2X()
         # reward[1] = - abs(v2x_vector[3] - v2x_vector[0]*3) - v2x_vector[2]*0.5 - min((v2x_vector[1] + v2x_vector[4])/(v2x_vector[1] * v2x_vector[4] + 0.00001), 5)

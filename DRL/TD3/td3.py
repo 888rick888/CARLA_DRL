@@ -449,7 +449,6 @@ if __name__ == "__main__":
                 agent.remember(s_t, action[0], reward, s_t1, dones)
                 epoch_reward += (reward[0] + reward[1]) * 0.5
     
-                print("episode:{} step:{} predict_action:{} action:{} reward:{} time_EachStep:{}".format(e,step,a_predict,action,reward, time.time()-a_time))
             
                 s_t = s_t1
 
@@ -462,6 +461,7 @@ if __name__ == "__main__":
                 if step % 3 ==0:
                     agent.update_target()
 
+                print("episode:{} step:{} predict_action:{} action:{} reward:{} time_EachStep:{}".format(e,step,a_predict,action,reward, time.time()-a_time))
                 if done:
                     break
                 try:
@@ -486,9 +486,9 @@ if __name__ == "__main__":
         
             env.des()
 
-            if e%500 == 0 and e is not 0:
+            if e%200 == 0 and e is not 0:
                 agent.save_model()
-            if step >= 2000 and e > 10:
+            if step >= 200 and e > 100:
                 agent.save_model()
             print('Training  | Episode: {}/{}  | Episode Reward: {:.4f}  | Running Time: {:.4f}'.format(
                         e + 1, TRAIN_EPISODES, epoch_reward, time.time() - t0))
